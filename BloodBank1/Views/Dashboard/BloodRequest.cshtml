@@ -1,0 +1,214 @@
+﻿@{
+    Layout = "~/Views/Shared/_LayoutDashboard.cshtml";
+    ViewData["Title"] = "Blood Bank Register Donor";
+}
+
+<div id="wrapper">
+    <!-- Navigation -->
+    <nav class="navbar navbar-fixed-top" role="navigation">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+                    <i class="fa fa-caret-down fa-lg" aria-hidden="true"></i>
+                    <span class="icon-bar"></span>
+                </button>
+
+                <a class="navbar-brand logoimg" href="@Url.Action("Index", "Dashboard")">
+                    <img src="~/assets/images/logo.png" alt="LOGO" style="width: 190px; height: 45px;">
+                </a>
+            </div>
+
+            <div class="collapse navbar-collapse" id="myNavbar">
+                <ul class="nav navbar-nav side-nav">
+                    <li>
+                        <a href="@Url.Action("Index", "Dashboard")"><i class="fa fa-home"></i> Dashboard</a>
+                    </li>
+                    <li>
+                        <a href="@Url.Action("NewDonor", "Dashboard")"><i class="fa fa-user"></i> New Donor</a>
+                    </li>
+                    <li>
+                        <a href="@Url.Action("BloodDonors", "Dashboard")"><i class="fa fa-plus-square"></i> Blood Doners</a>
+                    </li>
+                    <li>
+                        <a href="@Url.Action("BloodRequest", "Dashboard")"><i class="fa fa-tint"></i> Blood Request</a>
+                    </li>
+                    <li>
+                        <a href="@Url.Action("BloodRecievers", "Dashboard")"><i class="fa fa-address-book"></i> Blood Recievers</a>
+                    </li>
+                    <li>
+                        <a href="#"><i class="fa fa-sign-out"></i> Logout</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- content -->
+    <div id="page-wrapper">
+        <div class="container-fluid">
+            <div class="row" id="main">
+
+                <div class="col-sm-4 col-md-4 well" id="content">
+                    <h1 class="text-center">Blood Types</h1>
+                    <h3 class="text-center">Total Available Units : 50</h3>
+
+                    <!--Blood Type Table-->
+                    <table class="table table-bordered table-responsive-lg" id="donorTable">
+                        <thead>
+                            <tr>
+                                <th class="text-center">Blood Type</th>
+                                <th class="text-center">Units</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td class="text-center">O+</td>
+                                <td class="text-center" id="op">5</td>
+                            </tr>
+                            <tr>
+                                <td class="text-center">O-</td>
+                                <td class="text-center" id="on">15</td>
+                            </tr>
+                            <tr>
+                                <td class="text-center">A+</td>
+                                <td class="text-center" id="ap">7</td>
+                            </tr>
+                            <tr>
+                                <td class="text-center">A-</td>
+                                <td class="text-center" id="an">5</td>
+                            </tr>
+                            <tr>
+                                <td class="text-center">B+</td>
+                                <td class="text-center" id="bp">5</td>
+                            </tr>
+                            <tr>
+                                <td class="text-center">B+</td>
+                                <td class="text-center" id="bn">10</td>
+                            </tr>
+                            <tr>
+                                <td class="text-center">AB+</td>
+                                <td class="text-center" id="abp">5</td>
+                            </tr>
+                            <tr>
+                                <td class="text-center">AB+</td>
+                                <td class="text-center" id="abn">10</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="col-sm-8 col-md-8 well" id="content">
+                    <h1 class="text-center">Blood Request</h1>
+
+                    <!--Blood Table-->
+                    <table class="table table-hover table-responsive-lg" id="donorTable">
+                        <thead>
+                            <tr>
+                                <th class="text-center">ID</th>
+                                <th class="text-center">Donation Date</th>
+                                <th class="text-center">Expiration Date</th>
+                                <th class="text-center">Blood Type</th>
+                                <th class="text-center">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td class="text-center">1</td>
+                                <td class="text-center">29-Mar-2021</td>
+                                <td class="text-center">29-Aug-2021</td>
+                                <td class="text-center">0+</td>
+
+                                <td class="text-center">
+                                    <div class="btn-group" role="group">
+                                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#recieverInfoModal"><i class="fa fa-plus-circle"></i> Request Blood</button>
+                                        <button type="button" class="btn btn-danger"><i class="fa fa-trash"></i></button>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <!--Reciever Info Modal-->
+    <div class="modal fade" id="recieverInfoModal" tabindex="-1" role="dialog" aria-labelledby="recieverInfoModal" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3 class="modal-title text-center">Blood Reciever Information</h3>
+                </div>
+                <form>
+                    <div class="modal-body">
+                        <table class="table table-borderless">
+                            <tbody>
+                                <tr>
+                                    <th>
+                                        <label for="bloodType">Blood Type*</label>
+                                    </th>
+                                    <td>
+                                        <input type="text" class="form-control" id="bloodType" value="O+" disabled>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th>
+                                        <label for="fullName">Full Name*</label>
+                                    </th>
+                                    <td>
+                                        <input type="text" class="form-control" id="fullName" placeholder="Full Name" required>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th>
+                                        <label for="dob">Date of Birth*</label>
+                                    </th>
+                                    <td>
+                                        <input type="date" class="form-control" id="dob" required>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th>
+                                        <label for="gender">Gender*</label>
+                                    </th>
+                                    <td>
+                                        <select class="form-control" id="gender" required>
+                                            <option>Male</option>
+                                            <option>Female</option>
+                                            <option>Other</option>
+                                        </select>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th>
+                                        <label for="contactNumber">Contact Number*</label>
+                                    </th>
+                                    <td>
+                                        <input type="text" class="form-control" id="contactNumber" placeholder="Contact Number" required>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th>
+                                        <label for="city">City*</label>
+                                    </th>
+                                    <td>
+                                        <input type="text" class="form-control" id="city" placeholder="City" required>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+                    </div>
+
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary">Recieve Blood</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+</div>

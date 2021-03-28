@@ -1,0 +1,95 @@
+﻿@{
+    Layout = "~/Views/Shared/_LayoutDashboard.cshtml";
+    ViewData["Title"] = "Blood Bank Dashboard";
+}
+
+    <div id="wrapper">
+        <!-- Navigation -->
+        <nav class="navbar navbar-fixed-top" role="navigation">
+            <div class="container-fluid">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+                        <i class="fa fa-caret-down fa-lg" aria-hidden="true"></i>
+                        <span class="icon-bar"></span>
+                    </button>
+
+                    <a class="navbar-brand logoimg" href="@Url.Action("Index", "Dashboard")">
+                        <img src="~/assets/images/logo.png" alt="LOGO" style="width: 190px; height: 45px;">
+                    </a>
+                </div>
+
+                <div class="collapse navbar-collapse" id="myNavbar">
+                    <ul class="nav navbar-nav side-nav">
+                        <li>
+                            <a href="@Url.Action("Index", "Dashboard")"><i class="fa fa-home"></i> Dashboard</a>
+                        </li>
+                        <li>
+                            <a href="@Url.Action("NewDonor", "Dashboard")"><i class="fa fa-user"></i> New Donor</a>
+                        </li>
+                        <li>
+                            <a href="@Url.Action("BloodDonors", "Dashboard")"><i class="fa fa-plus-square"></i> Blood Doners</a>
+                        </li>
+                        <li>
+                            <a href="@Url.Action("BloodRequest", "Dashboard")"><i class="fa fa-tint"></i> Blood Request</a>
+                        </li>
+                        <li>
+                            <a href="@Url.Action("BloodRecievers", "Dashboard")"><i class="fa fa-address-book"></i> Blood Recievers</a>
+                        </li>
+                        <li>
+                            <a href="#"><i class="fa fa-sign-out"></i> Logout</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+
+        <!-- content -->
+        <div id="page-wrapper">
+            <div class="container-fluid">
+                <div class="row" id="main">
+                    <div class="col-sm-12 col-md-12 well" id="content">
+                        <h1 class="text-center display-3">Welcome Admin!</h1>
+                        <h3 class="text-center">Total Units of Blood Available : <span id="total_blood">30</span></h3>
+                    </div>
+                    <br />
+
+                    <div class="col-sm-3 col-md-3 well" id="content">
+                        <h3 class="text-center display-4">O Positive</h3>
+                        <h1 class="text-center" id="op">10</h1>
+                    </div>
+                    <div class="col-sm-3 col-md-3 well" id="content">
+                        <h3 class="text-center display-4">O Negative</h3>
+                        <h1 class="text-center" id="on">5</h1>
+                    </div>
+
+                    <div class="col-sm-3 col-md-3 well" id="content">
+                        <h3 class="text-center display-4">A Positive</h3>
+                        <h1 class="text-center" id="ap">10</h1>
+                    </div>
+                    <div class="col-sm-3 col-md-3 well" id="content">
+                        <h3 class="text-center display-4">A Negative</h3>
+                        <h1 class="text-center" id="an">5</h1>
+                    </div>
+
+                    <div class="col-sm-3 col-md-3 well" id="content">
+                        <h3 class="text-center display-4">B Positive</h3>
+                        <h1 class="text-center" id="bp">10</h1>
+                    </div>
+                    <div class="col-sm-3 col-md-3 well" id="content">
+                        <h3 class="text-center display-4">B Negative</h3>
+                        <h1 class="text-center" id="bn">5</h1>
+                    </div>
+
+                    <div class="col-sm-3 col-md-3 well" id="content">
+                        <h3 class="text-center display-4">AB Positive</h3>
+                        <h1 class="text-center" id="abp">10</h1>
+                    </div>
+                    <div class="col-sm-3 col-md-3 well" id="content">
+                        <h3 class="text-center display-4">AB Negative</h3>
+                        <h1 class="text-center" id="abn">5</h1>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
