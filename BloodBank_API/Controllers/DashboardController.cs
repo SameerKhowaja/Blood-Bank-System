@@ -21,7 +21,7 @@ namespace BloodBank_API.Controllers
         // GET All Bloodbank Stock from bloodbankStock_table
         [Route("getBloodStock")]
         [HttpGet]
-        public HttpResponseMessage GetAllDonor()
+        public HttpResponseMessage getBloodStock()
         {
             string query = "SELECT * from bloodbankStock_table";
             SqlDataAdapter da = new SqlDataAdapter(query, con);

@@ -1,12 +1,13 @@
+BloodBank_API
 API CALL URL Documentation Helper Description
 --------------------------------------------------------------
-DASHBOARD
+DASHBOARD Controller
 
 (GET All Bloodbank Stock from bloodbankStock_table)
 /getBloodStock
 
 --------------------------------------------------------------
-DONOR
+DONOR Controller
 
 (GET All Donors data from donors_table)
 /getDonor
@@ -30,7 +31,7 @@ DONOR
 /deleteDonor/{id}
 
 --------------------------------------------------------------
-REQUESTOR
+REQUESTOR Controller
 
 (GET All Blood Requestor Data from requestor_table join donorDonatedBlood_table on blood_id)
 /getRequestor
@@ -43,5 +44,14 @@ REQUESTOR
 
 (DELETE Requestor Data with request_id from requestor_table)
 /deleteRequestor
+
+--------------------------------------------------------------
+BLOODDETAIL Controller
+
+(GET All Blood Detail (Available or Expired or Consumed) from donorDonatedBlood_table with donors_table information)
+/getAllBloodWithDonor
+
+(GET All Blood Details (Available or Expired or Consumed) from donorDonatedBlood_table)
+/getAllBloodDetail
 
 --------------------------------------------------------------
