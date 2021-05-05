@@ -1,0 +1,242 @@
+﻿@{
+    Layout = "~/Views/Shared/_LayoutDashboard.cshtml";
+    ViewData["Title"] = "Blood Bank Expired or Consumed Blood";
+}
+
+<div id="wrapper">
+    <!-- Navigation -->
+    <nav class="navbar navbar-fixed-top" role="navigation">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+                    <i class="fa fa-caret-down fa-lg" aria-hidden="true"></i>
+                    <span class="icon-bar"></span>
+                </button>
+
+                <a class="navbar-brand logoimg" href="@Url.Action("Index", "Dashboard")">
+                    <img src="~/assets/images/logo.png" alt="LOGO" style="width: 190px; height: 45px;">
+                </a>
+            </div>
+
+            <div class="collapse navbar-collapse" id="myNavbar">
+                <ul class="nav navbar-nav side-nav">
+                    <li>
+                        <a href="@Url.Action("Index", "Dashboard")"><i class="fa fa-home"></i> Dashboard</a>
+                    </li>
+                    <li>
+                        <a href="@Url.Action("NewDonor", "Dashboard")"><i class="fa fa-user"></i> New Donor</a>
+                    </li>
+                    <li>
+                        <a href="@Url.Action("BloodDonors", "Dashboard")"><i class="fa fa-plus-square"></i> Blood Doners</a>
+                    </li>
+                    <li>
+                        <a href="@Url.Action("BloodRequest", "Dashboard")"><i class="fa fa-tint"></i> Blood To Request</a>
+                    </li>
+                    <li>
+                        <a href="@Url.Action("BloodDetail", "Dashboard")"><i class="fa fa-eraser"></i> Blood Detail</a>
+                    </li>
+                    <li>
+                        <a href="@Url.Action("BloodRecievers", "Dashboard")"><i class="fa fa-address-book"></i> Blood Recievers</a>
+                    </li>
+                    <li>
+                        <a href="#"><i class="fa fa-sign-out"></i> Logout</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- content -->
+    <div id="page-wrapper">
+        <div class="container-fluid">
+            <div class="row" id="main">
+
+                <!--Available Blood Table-->
+                <div class="col-sm-12 col-md-12 well" id="content">
+                    <h1 class="text-center">Available Blood Details</h1>
+                    <table class="table table-bordered table-responsive-lg" id="Available_bloodTable">
+                        <tbody>
+                            <tr>
+                                <td class="text-center"><strong>Blood Type</strong></td>
+                                <td class="text-center"><strong>O+</strong></td>
+                                <td class="text-center"><strong>O-</strong></td>
+                                <td class="text-center"><strong>A+</strong></td>
+                                <td class="text-center"><strong>A-</strong></td>
+                                <td class="text-center"><strong>B+</strong></td>
+                                <td class="text-center"><strong>B-</strong></td>
+                                <td class="text-center"><strong>AB+</strong></td>
+                                <td class="text-center"><strong>AB-</strong></td>
+                            </tr>
+                            <tr>
+                                <td class="text-center"><strong>Unit of Blood</strong></td>
+                                <td class="text-center" id="op">5</td>
+                                <td class="text-center" id="on">15</td>
+                                <td class="text-center" id="ap">7</td>
+                                <td class="text-center" id="an">5</td>
+                                <td class="text-center" id="bp">5</td>
+                                <td class="text-center" id="bn">10</td>
+                                <td class="text-center" id="abp">5</td>
+                                <td class="text-center" id="abn">10</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <!--Consumed Blood Table-->
+                <div class="col-sm-12 col-md-12 well" id="content">
+                    <h1 class="text-center">Consumed or Used Blood Details</h1>
+                    <table class="table table-bordered table-responsive-lg" id="Consumed_bloodTable">
+                        <tbody>
+                            <tr>
+                                <td class="text-center"><strong>Blood Type</strong></td>
+                                <td class="text-center"><strong>O+</strong></td>
+                                <td class="text-center"><strong>O-</strong></td>
+                                <td class="text-center"><strong>A+</strong></td>
+                                <td class="text-center"><strong>A-</strong></td>
+                                <td class="text-center"><strong>B+</strong></td>
+                                <td class="text-center"><strong>B-</strong></td>
+                                <td class="text-center"><strong>AB+</strong></td>
+                                <td class="text-center"><strong>AB-</strong></td>
+                            </tr>
+                            <tr>
+                                <td class="text-center"><strong>Unit of Blood</strong></td>
+                                <td class="text-center" id="op">5</td>
+                                <td class="text-center" id="on">15</td>
+                                <td class="text-center" id="ap">7</td>
+                                <td class="text-center" id="an">5</td>
+                                <td class="text-center" id="bp">5</td>
+                                <td class="text-center" id="bn">10</td>
+                                <td class="text-center" id="abp">5</td>
+                                <td class="text-center" id="abn">10</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <!--Expired Blood Table-->
+                <div class="col-sm-12 col-md-12 well" id="content">
+                    <h1 class="text-center">Expired Blood Details</h1>
+                    <table class="table table-bordered table-responsive-lg" id="Expired_bloodTable">
+                        <tbody>
+                            <tr>
+                                <td class="text-center"><strong>Blood Type</strong></td>
+                                <td class="text-center"><strong>O+</strong></td>
+                                <td class="text-center"><strong>O-</strong></td>
+                                <td class="text-center"><strong>A+</strong></td>
+                                <td class="text-center"><strong>A-</strong></td>
+                                <td class="text-center"><strong>B+</strong></td>
+                                <td class="text-center"><strong>B-</strong></td>
+                                <td class="text-center"><strong>AB+</strong></td>
+                                <td class="text-center"><strong>AB-</strong></td>
+                            </tr>
+                            <tr>
+                                <td class="text-center"><strong>Unit of Blood</strong></td>
+                                <td class="text-center" id="op">5</td>
+                                <td class="text-center" id="on">15</td>
+                                <td class="text-center" id="ap">7</td>
+                                <td class="text-center" id="an">5</td>
+                                <td class="text-center" id="bp">5</td>
+                                <td class="text-center" id="bn">10</td>
+                                <td class="text-center" id="abp">5</td>
+                                <td class="text-center" id="abn">10</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+
+            </div>
+        </div>
+    </div>
+
+    <!--Reciever Info Modal-->
+    <div class="modal fade" id="recieverInfoModal" tabindex="-1" role="dialog" aria-labelledby="recieverInfoModal" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3 class="modal-title text-center">Blood Reciever Information</h3>
+                </div>
+                <form>
+                    <div class="modal-body">
+                        <table class="table table-borderless">
+                            <tbody>
+                                <tr>
+                                    <th>
+                                        <label for="blood_id">Blood ID*</label>
+                                    </th>
+                                    <td>
+                                        <input type="text" class="form-control" id="blood_id" value="1" disabled>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th>
+                                        <label for="bloodType">Blood Type*</label>
+                                    </th>
+                                    <td>
+                                        <input type="text" class="form-control" id="bloodType" value="O+" disabled>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td colspan="2">
+                                        <h4 class="text-center"><strong>Blood Requestor Information</strong></h4>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th>
+                                        <label for="fullName">Full Name*</label>
+                                    </th>
+                                    <td>
+                                        <input type="text" class="form-control" id="fullName" placeholder="Full Name" required>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th>
+                                        <label for="dob">Date of Birth*</label>
+                                    </th>
+                                    <td>
+                                        <input type="date" class="form-control" id="dob" required>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th>
+                                        <label for="gender">Gender*</label>
+                                    </th>
+                                    <td>
+                                        <select class="form-control" id="gender" required>
+                                            <option>Male</option>
+                                            <option>Female</option>
+                                            <option>Other</option>
+                                        </select>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th>
+                                        <label for="contactNumber">Contact Number*</label>
+                                    </th>
+                                    <td>
+                                        <input type="text" class="form-control" id="contactNumber" placeholder="Contact Number" required>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th>
+                                        <label for="city">City*</label>
+                                    </th>
+                                    <td>
+                                        <input type="text" class="form-control" id="city" placeholder="City" required>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+                    </div>
+
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary">Recieve Blood</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+</div>

@@ -1,0 +1,47 @@
+API CALL URL Documentation Helper Description
+--------------------------------------------------------------
+DASHBOARD
+
+(GET All Bloodbank Stock from bloodbankStock_table)
+/getBloodStock
+
+--------------------------------------------------------------
+DONOR
+
+(GET All Donors data from donors_table)
+/getDonor
+
+(GET Donor Record with donor_id from donors_table)
+/getDonor/{id}
+
+(GET Donor blood donation record with donor_id from donorDonatedBlood_table)
+/getDonorDonation/{id}
+
+(POST Add new Donor to donors_table)
+/addNewDonor
+
+(POST Add new Blood Donation of Donor to donorDonatedBlood_table via donor_id)
+/addNewDonorDonation
+
+(PUT Update Donor record via donor_id in donors_table)
+/editDonor/{id}
+
+(DELETE Donor with donor_id from donors_table)
+/deleteDonor/{id}
+
+--------------------------------------------------------------
+REQUESTOR
+
+(GET All Blood Requestor Data from requestor_table join donorDonatedBlood_table on blood_id)
+/getRequestor
+
+(POST ADD New Requestor who want blood from donorDonatedBlood_table and add data to requestor_table and requestor_donor_table)
+(Add to requestor_table mark CheckDonate to 1 (i=1) from donorDonatedBlood_table)
+(Add donor_id and request_id to requestor_donor_table)
+(Get donor_id adding donor_id and request_id to requestor_donor_table and Update bloodbankStock_table)
+/newBloodRequestor
+
+(DELETE Requestor Data with request_id from requestor_table)
+/deleteRequestor
+
+--------------------------------------------------------------

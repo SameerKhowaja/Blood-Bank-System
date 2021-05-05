@@ -38,6 +38,11 @@ namespace BloodBank1.Controllers
             return View();
         }
 
+        public IActionResult BloodDetail()
+        {
+            return View();
+        }
+
         public IActionResult BloodRecievers()
         {
             return View();

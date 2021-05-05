@@ -1,6 +1,6 @@
 ﻿@{
     Layout = "~/Views/Shared/_LayoutDashboard.cshtml";
-    ViewData["Title"] = "Blood Bank Dashboard";
+    ViewData["Title"] = "Blood Bank Blood Reciever";
 }
 
     <div id="wrapper">
@@ -30,7 +30,10 @@
                             <a href="@Url.Action("BloodDonors", "Dashboard")"><i class="fa fa-plus-square"></i> Blood Doners</a>
                         </li>
                         <li>
-                            <a href="@Url.Action("BloodRequest", "Dashboard")"><i class="fa fa-tint"></i> Blood Request</a>
+                            <a href="@Url.Action("BloodRequest", "Dashboard")"><i class="fa fa-tint"></i> Blood To Request</a>
+                        </li>
+                        <li>
+                            <a href="@Url.Action("BloodDetail", "Dashboard")"><i class="fa fa-eraser"></i> Blood Detail</a>
                         </li>
                         <li>
                             <a href="@Url.Action("BloodRecievers", "Dashboard")"><i class="fa fa-address-book"></i> Blood Recievers</a>
@@ -62,25 +65,27 @@
                                 <tr>
                                     <th class="text-center">ID</th>
                                     <th class="text-center">Full Name</th>
-                                    <th class="text-center">Age</th>
+                                    <th class="text-center">Date of Birth</th>
                                     <th class="text-center">Gender</th>
                                     <th class="text-center">Contact #</th>
                                     <th class="text-center">City</th>
                                     <th class="text-center">Recieved Date</th>
                                     <th class="text-center">Blood Type</th>
-                                    <th class="text-center">Action/History</th>
+                                    <th class="text-center">Unit of Blood</th>
+                                    <th class="text-center">Action</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <tr>
                                     <td class="text-center">1</td>
                                     <td class="text-center">Ali Rehman</td>
-                                    <td class="text-center">22</td>
+                                    <td class="text-center">2000-05-28</td>
                                     <td class="text-center">Male</td>
                                     <td class="text-center">03333333000</td>
                                     <td class="text-center">Karachi</td>
-                                    <td class="text-center">29-Mar-2021</td>
+                                    <td class="text-center">2021-01-01</td>
                                     <td class="text-center">B+</td>
+                                    <td class="text-center">525</td>
 
                                     <td class="text-center">
                                         <div class="btn-group" role="group">
