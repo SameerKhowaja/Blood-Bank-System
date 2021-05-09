@@ -7,7 +7,8 @@ using System.Threading.Tasks;
 namespace BloodBankAPI_2.Controllers
 {
     [Route("api/[controller]")]
-    public class BloodDonorController : Controller
+    [ApiController]
+    public class BloodDonorController : ControllerBase
     {
         private readonly IBloodDonorRepository _bloodDonorRepository;
 
@@ -17,7 +18,7 @@ namespace BloodBankAPI_2.Controllers
         }
 
         /// <summary>
-        /// Fetchs List of All Blood Donors from Database
+        /// Fetches List of All Blood Donors from Database
         /// </summary>
         /// <returns></returns>
         [HttpGet]
@@ -27,6 +28,11 @@ namespace BloodBankAPI_2.Controllers
             return Ok(bloodDonors);
         }
 
+        /// <summary>
+        /// Fetches A Sngle Blood Donor based on Id
+        /// </summary>
+        /// <param name="Id"></param>
+        /// <returns></returns>
         [HttpGet("{Id}")]
         public async Task<IActionResult> GetBloodDonor(int? Id)
         {
@@ -53,6 +59,46 @@ namespace BloodBankAPI_2.Controllers
 
             /// BloodDonor was found
             return Ok(bloodDonor);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> CreateBloodDonor([FromBody] BloodDonorDTO bloodDonorDTO)
+        {
+            if (ModelState.IsValid == false) return BadRequest(ModelState);
+
+            var donor = await _bloodDonorRepository.CreateBloodDonor(bloodDonorDTO);
+
+            if(donor == null)
+            {
+                RequestError error = new()
+                {
+                    Message = "Could not create BloodDonor",
+                    StatusCode = StatusCodes.Status400BadRequest
+                };
+                return BadRequest(error);
+            }
+
+            return Ok(donor);
+        }
+
+        [HttpPut]
+        public async Task<IActionResult> UpdateBloodDonor(int Id, [FromBody] BloodDonorDTO updatedDonor)
+        {
+            if(ModelState.IsValid == false) return BadRequest(ModelState);
+
+            var donor = await _bloodDonorRepository.UpdateBloodDonor(Id, updatedDonor);
+
+            if(donor == null)
+            {
+                RequestError error = new()
+                {
+                    Message = $"No BloodDonor found with Id: {Id}",
+                    StatusCode = StatusCodes.Status400BadRequest
+                };
+                return BadRequest(error);
+            }
+
+            return Ok(donor);
         }
     }
 }

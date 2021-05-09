@@ -51,7 +51,8 @@ namespace BloodBank1
                 endpoints.MapControllerRoute(
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}/{id?}");
-            });
+                    // pattern: "{controller=Dashboard}/{action=BloodDonors}/{id?}");
+        });
         }
     }
 }

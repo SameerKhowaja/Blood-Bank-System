@@ -1,12 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
-namespace DataAccess.Data
+namespace Models
 {
-    public class BloodDonor
+    public class BloodRecipientDTO
     {
-        [Key]
         public int Id { get; set; }
         [Required]
         public string FullName { get; set; }
@@ -17,14 +15,10 @@ namespace DataAccess.Data
         [Required]
         public string BloodType { get; set; }
         [Required]
-        public DateTime LastDonatedAt { get; set; }
+        public DateTime LastReceivedAt { get; set; }
         [Required]
         public string PhoneNumber { get; set; }
         public string EmailAddress { get; set; }
         public string Address { get; set; }
-        [Required]
-        public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
-        [Required]
-        public List<DonationRecord> DonationRecords { get; set; }
     }
 }

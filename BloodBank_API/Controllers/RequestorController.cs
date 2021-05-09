@@ -15,8 +15,6 @@ namespace BloodBank_API.Controllers
 {
     public class RequestorController : ApiController
     {
-        static string conStr = ConfigurationManager.ConnectionStrings["connectDB"].ConnectionString;
-        SqlConnection con = new SqlConnection(conStr);
         GenericClass gc = new GenericClass();
 
         //GET All Blood Requestor Data from requestor_table join donorDonatedBlood_table on blood_id
@@ -29,22 +27,11 @@ namespace BloodBank_API.Controllers
                 string query = "SELECT requestor_table.*, donorDonatedBlood_table.* " +
                     "FROM requestor_table inner join donorDonatedBlood_table " +
                     "ON requestor_table.blood_id = donorDonatedBlood_table.blood_id";
-                SqlDataAdapter da = new SqlDataAdapter(query, con);
-                DataTable dt = new DataTable();
-                da.Fill(dt);
-                dt.Columns.Remove("blood_id1");
-                gc.TrimDataTableRow(dt);
 
-                if (dt.Rows.Count > 0)
-                {
-                    // success
-                    return Request.CreateResponse(HttpStatusCode.OK, dt);
-                }
-                else
-                {
-                    // failed 0 Rows returned
-                    return Request.CreateResponse(HttpStatusCode.OK, 0);
-                }
+                DataTable dt = gc.GetData_Database(query);
+                dt.Columns.Remove("blood_id1");
+                if (dt.Rows.Count > 0) { return Request.CreateResponse(HttpStatusCode.OK, dt); }
+                else { return Request.CreateResponse(HttpStatusCode.OK, 0); }
             }
             catch
             {
@@ -62,22 +49,13 @@ namespace BloodBank_API.Controllers
             try {
                 string query = "INSERT INTO requestor_table (fullname, dob, gender, contact_number, city, blood_id, date_recieved) VALUES ('" + requestorTB.fullname + "', '" + requestorTB.dob + "', " +
                     " '" + requestorTB.gender + "', '" + requestorTB.contact_number + "', '" + requestorTB.city + "', '" + requestorTB.blood_id + "', '" + requestorTB.date_recieved + "')";
-
-                SqlCommand cmd = new SqlCommand(query, con);
-                cmd.CommandType = CommandType.Text;
-                con.Open();
-                int i = cmd.ExecuteNonQuery();
-                con.Close();
+                int i = gc.PostUpdateDeleteData_Database(query);
 
                 if (i == 1)
                 {
                     // On success add to requestor_table mark CheckDonate to 1 (i=1) from donorDonatedBlood_table
                     string query2 = "UPDATE donorDonatedBlood_table SET CheckDonate = '" + i + "' WHERE blood_id = '" + requestorTB.blood_id + "'";
-                    SqlCommand cmd2 = new SqlCommand(query2, con);
-                    cmd2.CommandType = CommandType.Text;
-                    con.Open();
-                    int j = cmd2.ExecuteNonQuery();
-                    con.Close();
+                    int j = gc.PostUpdateDeleteData_Database(query2);
 
                     if (j == 1)
                     {
@@ -85,11 +63,8 @@ namespace BloodBank_API.Controllers
                         string query3 = "SELECT donorDonatedBlood_table.donor_id, requestor_table.request_id " +
                             "FROM donorDonatedBlood_table inner join requestor_table " +
                             "ON donorDonatedBlood_table.blood_id = requestor_table.blood_id";
-                        SqlDataAdapter da = new SqlDataAdapter(query3, con);
-                        DataTable dt = new DataTable();
-                        da.Fill(dt);
-                        gc.TrimDataTableRow(dt);
-
+                        
+                        DataTable dt = gc.GetData_Database(query3);
                         if (dt.Rows.Count > 0)
                         {
                             // On success get donor_id adding donor_id and request_id to requestor_donor_table
@@ -99,21 +74,14 @@ namespace BloodBank_API.Controllers
                             int requestID = jsonObject[0]["request_id"];
 
                             string query4 = "INSERT INTO requestor_donor_table (donor_id, request_id) VALUES ('" + donorID + "', '" + requestID + "')";
-                            SqlCommand cmd3 = new SqlCommand(query4, con);
-                            cmd3.CommandType = CommandType.Text;
-                            con.Open();
-                            int k = cmd3.ExecuteNonQuery();
-                            con.Close();
+                            int k = gc.PostUpdateDeleteData_Database(query4);
 
                             // success
                             if (k == 1)
                             {
                                 // On Success now Update bloodbankStock_table
                                 string query5 = "SELECT blood_type, unit_of_blood FROM donorDonatedBlood_table WHERE blood_id = '" + requestorTB.blood_id + "'";
-                                SqlDataAdapter da2 = new SqlDataAdapter(query5, con);
-                                DataTable dt2 = new DataTable();
-                                da2.Fill(dt2);
-                                gc.TrimDataTableRow(dt2);
+                                DataTable dt2 = gc.GetData_Database(query5);
 
                                 if (dt2.Rows.Count > 0)
                                 {
@@ -125,14 +93,10 @@ namespace BloodBank_API.Controllers
 
                                     // Now Update bloodbankStock_table
                                     string query6 = "UPDATE bloodbankStock_table SET total_units = total_units - '" + unitBlood + "' WHERE blood_type = '" + bloodType + "'";
-                                    SqlCommand cmd4 = new SqlCommand(query6, con);
-                                    cmd4.CommandType = CommandType.Text;
-                                    con.Open();
-                                    int L = cmd4.ExecuteNonQuery();
-                                    con.Close();
+                                    int l = gc.PostUpdateDeleteData_Database(query6);
 
                                     // success
-                                    if (k == 1)
+                                    if (l == 1)
                                         return Request.CreateResponse(HttpStatusCode.OK, 1);
                                     //Failed
                                     else
@@ -183,23 +147,12 @@ namespace BloodBank_API.Controllers
             try
             {
                 string query = "DELETE From requestor_table WHERE request_id = '" + id + "'";
+                int i = gc.PostUpdateDeleteData_Database(query);
 
-                SqlCommand cmd = new SqlCommand(query, con);
-                cmd.CommandType = CommandType.Text;
-                con.Open();
-                int i = cmd.ExecuteNonQuery();
-                con.Close();
-
-                if (i == 1)
-                {
-                    // success
-                    return Request.CreateResponse(HttpStatusCode.OK, 1);
-                }
-                else
-                {
-                    // failed
-                    return Request.CreateResponse(HttpStatusCode.OK, 0);
-                }
+                // success
+                if (i == 1) { return Request.CreateResponse(HttpStatusCode.OK, 1); }
+                // failed
+                else { return Request.CreateResponse(HttpStatusCode.OK, 0); }
             }
             catch
             {

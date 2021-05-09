@@ -1,10 +1,5 @@
 ﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DataAccess.Data
 {
@@ -14,5 +9,8 @@ namespace DataAccess.Data
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options) { }
 
         public DbSet<BloodDonor> BloodDonors { get; set; }
+        public DbSet<BloodRecipient> BloodRecipients { get; set; }
+        public DbSet<DonationRecord> DonationRecords { get; set; }
+        public DbSet<ReceptionRecord> ReceptionRecords { get; set; }
     }
 }

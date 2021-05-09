@@ -14,8 +14,6 @@ namespace BloodBank_API.Controllers
 {
     public class DashboardController : ApiController
     {
-        static string conStr = ConfigurationManager.ConnectionStrings["connectDB"].ConnectionString;
-        SqlConnection con = new SqlConnection(conStr);
         GenericClass gc = new GenericClass();
 
         // GET All Bloodbank Stock from bloodbankStock_table
@@ -23,19 +21,17 @@ namespace BloodBank_API.Controllers
         [HttpGet]
         public HttpResponseMessage getBloodStock()
         {
-            string query = "SELECT * from bloodbankStock_table";
-            SqlDataAdapter da = new SqlDataAdapter(query, con);
-            DataTable dt = new DataTable();
-            da.Fill(dt);
-            gc.TrimDataTableRow(dt);
-
-            if (dt.Rows.Count > 0)
+            try
             {
-                return Request.CreateResponse(HttpStatusCode.OK, dt);
+                string query = "SELECT * from bloodbankStock_table";
+                DataTable dt = gc.GetData_Database(query);
+                if (dt.Rows.Count > 0) { return Request.CreateResponse(HttpStatusCode.OK, dt); }
+                else { return Request.CreateResponse(HttpStatusCode.OK, 0); }
             }
-            else
+            catch
             {
-                return Request.CreateResponse(HttpStatusCode.OK, 0);
+                // Error occured
+                return Request.CreateResponse(HttpStatusCode.OK, -1);
             }
         }
 

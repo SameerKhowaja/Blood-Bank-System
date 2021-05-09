@@ -4,14 +4,16 @@ using DataAccess.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace DataAccess.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210505190656_AddBloodRecipient")]
+    partial class AddBloodRecipient
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -103,52 +105,6 @@ namespace DataAccess.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("BloodRecipients");
-                });
-
-            modelBuilder.Entity("DataAccess.Data.DonationRecord", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<DateTime>("DonatedAt")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int>("DonatedById")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Units")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("DonatedById");
-
-                    b.ToTable("DonationRecords");
-                });
-
-            modelBuilder.Entity("DataAccess.Data.ReceptionRecord", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<DateTime>("ReceivedAt")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int>("ReceivedById")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Units")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ReceivedById");
-
-                    b.ToTable("ReceptionRecords");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -347,28 +303,6 @@ namespace DataAccess.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
-            modelBuilder.Entity("DataAccess.Data.DonationRecord", b =>
-                {
-                    b.HasOne("DataAccess.Data.BloodDonor", "DonatedBy")
-                        .WithMany("DonationRecords")
-                        .HasForeignKey("DonatedById")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("DonatedBy");
-                });
-
-            modelBuilder.Entity("DataAccess.Data.ReceptionRecord", b =>
-                {
-                    b.HasOne("DataAccess.Data.BloodRecipient", "ReceivedBy")
-                        .WithMany("ReceptionRecords")
-                        .HasForeignKey("ReceivedById")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("ReceivedBy");
-                });
-
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
@@ -418,16 +352,6 @@ namespace DataAccess.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-                });
-
-            modelBuilder.Entity("DataAccess.Data.BloodDonor", b =>
-                {
-                    b.Navigation("DonationRecords");
-                });
-
-            modelBuilder.Entity("DataAccess.Data.BloodRecipient", b =>
-                {
-                    b.Navigation("ReceptionRecords");
                 });
 #pragma warning restore 612, 618
         }

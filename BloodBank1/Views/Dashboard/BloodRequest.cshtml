@@ -1,6 +1,8 @@
-﻿@{
+﻿@model List<DonorDonatedBlood>;
+
+@{
     Layout = "~/Views/Shared/_LayoutDashboard.cshtml";
-    ViewData["Title"] = "Blood Bank Blood to Request";
+    ViewData["Title"] = "BloodBank Blood to Request";
 }
 
 <div id="wrapper">
@@ -13,9 +15,17 @@
                     <span class="icon-bar"></span>
                 </button>
 
+                <button class="navbar-toggle btn-primary btn-lg" data-toggle="collapse" onclick="document.location='@Url.Action("Index", "BankBlood")'">
+                    <i class="fa fa-tint" aria-hidden="true"></i> BloodBank2
+                </button>
+
                 <a class="navbar-brand logoimg" href="@Url.Action("Index", "Dashboard")">
                     <img src="~/assets/images/logo.png" alt="LOGO" style="width: 190px; height: 45px;">
                 </a>
+            </div>
+
+            <div class="text-right collapse navbar-collapse" style="margin-top:10px;" id="myBtn">
+                <a href="@Url.Action("Index", "BankBlood")" type="button" class="btn btn-lg btn-primary"><i class="fa fa-tint"></i> BloodBank2 Blood Stock Detail</a>
             </div>
 
             <div class="collapse navbar-collapse" id="myNavbar">
@@ -24,19 +34,19 @@
                         <a href="@Url.Action("Index", "Dashboard")"><i class="fa fa-home"></i> Dashboard</a>
                     </li>
                     <li>
-                        <a href="@Url.Action("NewDonor", "Dashboard")"><i class="fa fa-user"></i> New Donor</a>
+                        <a href="@Url.Action("BloodRequest", "Dashboard")"><i class="fa fa-tint"></i> Request Blood</a>
                     </li>
                     <li>
-                        <a href="@Url.Action("BloodDonors", "Dashboard")"><i class="fa fa-plus-square"></i> Blood Doners</a>
+                        <a href="@Url.Action("NewDonor", "Dashboard")"><i class="fa fa-plus-square"></i> Add New Donor</a>
                     </li>
                     <li>
-                        <a href="@Url.Action("BloodRequest", "Dashboard")"><i class="fa fa-tint"></i> Blood To Request</a>
-                    </li>
-                    <li>
-                        <a href="@Url.Action("BloodDetail", "Dashboard")"><i class="fa fa-eraser"></i> Blood Detail</a>
+                        <a href="@Url.Action("BloodDonors", "Dashboard")"><i class="fa fa-user"></i> Blood Doners</a>
                     </li>
                     <li>
                         <a href="@Url.Action("BloodRecievers", "Dashboard")"><i class="fa fa-address-book"></i> Blood Recievers</a>
+                    </li>
+                    <li>
+                        <a href="@Url.Action("BloodDetail", "Dashboard")"><i class="fa fa-eraser"></i> Blood Detail</a>
                     </li>
                     <li>
                         <a href="#"><i class="fa fa-sign-out"></i> Logout</a>
@@ -53,16 +63,14 @@
                 <div class="col-sm-12 col-md-12 well" id="content">
                     <h1 class="text-center">Available Blood for Request</h1>
 
-                    <div class="row">
-                        <div class="input-group col-lg-12">
-                            <input type="text" class="form-control" placeholder="Search">
-                        </div>
+                    <div class="input-group col-lg-12 rounded" style="margin-bottom:4px;">
+                        <input id="myInput" type="search" class="form-control rounded" placeholder="Search" aria-label="Search" aria-describedby="search-addon" />
                     </div>
 
                     <!--Blood Table-->
                     <table class="table table-hover table-responsive-lg" id="bloodTable">
                         <thead>
-                            <tr>
+                            <tr style="background-color: #F1F3FF; border:1px solid #CCCCCC;">
                                 <th class="text-center">ID</th>
                                 <th class="text-center">Donation Date</th>
                                 <th class="text-center">Expiration Date</th>
@@ -72,20 +80,34 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td class="text-center">1</td>
-                                <td class="text-center">29-Mar-2021</td>
-                                <td class="text-center">29-Aug-2021</td>
-                                <td class="text-center">0+</td>
-                                <td class="text-center">525</td>
+                            @foreach (var item in Model)
+                            {
+                                @if (@item.blood_id == 0)
+                                {
+                                    <tr>
+                                        <td colspan="6">
+                                            <h4 class="text-center">No Blood Stock Data Found</h4>
+                                        </td>
+                                    </tr>
 
-                                <td class="text-center">
-                                    <div class="btn-group" role="group">
-                                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#recieverInfoModal"><i class="fa fa-plus-circle"></i> Request Blood</button>
-                                        <button type="button" class="btn btn-danger"><i class="fa fa-trash"></i></button>
-                                    </div>
-                                </td>
-                            </tr>
+                                    break;
+                                }
+
+                                <tr>
+                                    <td class="text-center">@item.blood_id</td>
+                                    <td class="text-center">@item.date_donated.ToString("dd/MM/yyyy")</td>
+                                    <td class="text-center">@item.expiry_date.ToString("dd/MM/yyyy")</td>
+                                    <td class="text-center">@item.blood_type</td>
+                                    <td class="text-center">@item.unit_of_blood</td>
+
+                                    <td class="text-center">
+                                        <div class="btn-group" role="group">
+                                            <button id="@item.blood_id" type="button" class="btn btn-primary" data-toggle="modal" data-target="#recieverInfoModal"><i class="fa fa-plus-circle"></i> Request Blood</button>
+                                            <button id="@item.blood_id" type="button" class="btn btn-danger delete"><i class="fa fa-trash"></i></button>
+                                        </div>
+                                    </td>
+                                </tr>
+                            }
                         </tbody>
                     </table>
                 </div>
@@ -101,7 +123,7 @@
                 <div class="modal-header">
                     <h3 class="modal-title text-center">Blood Reciever Information</h3>
                 </div>
-                <form>
+                <form id="form1" action="">
                     <div class="modal-body">
                         <table class="table table-borderless">
                             <tbody>
@@ -184,4 +206,57 @@
         </div>
     </div>
 
+    <!--Delete Blood Data Modal-->
+    <div class="modal fade" id="bloodDeleteModal" tabindex="-1" role="dialog" aria-labelledby="bloodDeleteModal" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3 class="modal-title text-center">Confirm Delete Donor</h3>
+                </div>
+                <form id="deleteForm" action="">
+                    <div class="modal-body">
+                        <table class="table table-borderless">
+                            <tbody>
+                                <tr>
+                                    <td>
+                                        <h4 class="text-center">Are you Sure to Delete Blood Data Record Permanently.</h4>
+                                        <h4 class="text-center"><strong>(May Effect Other Record)</strong></h4>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+                    </div>
+
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-danger">Delete Blood Record</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+
 </div>
+
+<script>
+    $(document).ready(function () {
+        $("#myInput").on("keyup", function () {
+            var value = $(this).val().toLowerCase();
+            $("#bloodTable tbody tr").filter(function () {
+                $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+            });
+        });
+
+        // Delete Modal
+        $('#bloodTable tbody').on('click', '.delete', function () {
+            var curr_row = $(this).closest('tr');
+            var id = curr_row.find('td:eq(0)').text();
+
+            // Add data to Modal
+            $('#deleteForm').attr('action', 'BloodDataDelete/' + id);
+            $('#bloodDeleteModal').modal('show');
+        });
+    });
+</script>

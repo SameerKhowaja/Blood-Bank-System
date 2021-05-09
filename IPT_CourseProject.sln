@@ -17,6 +17,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Business", "Business\Busine
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BloodBankAPI_2", "BloodBankAPI_2\BloodBankAPI_2.csproj", "{2E29DDBE-1AF6-4F4B-8C08-B869B356D4C4}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestConsoleAPI", "TestConsoleAPI\TestConsoleAPI.csproj", "{637426ED-C1AB-4E96-811B-6317F20A924C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -51,6 +53,10 @@ Global
 		{2E29DDBE-1AF6-4F4B-8C08-B869B356D4C4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2E29DDBE-1AF6-4F4B-8C08-B869B356D4C4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2E29DDBE-1AF6-4F4B-8C08-B869B356D4C4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{637426ED-C1AB-4E96-811B-6317F20A924C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{637426ED-C1AB-4E96-811B-6317F20A924C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{637426ED-C1AB-4E96-811B-6317F20A924C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{637426ED-C1AB-4E96-811B-6317F20A924C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

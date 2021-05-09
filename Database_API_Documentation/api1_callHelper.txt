@@ -22,10 +22,11 @@ DONOR Controller
 /addNewDonor
 
 (POST Add new Blood Donation of Donor to donorDonatedBlood_table via donor_id)
+(update last donation date of donor in donors_table and add data to bloodbankStock_table)
 /addNewDonorDonation
 
 (PUT Update Donor record via donor_id in donors_table)
-/editDonor/{id}
+/editDonor
 
 (DELETE Donor with donor_id from donors_table)
 /deleteDonor/{id}
@@ -43,7 +44,7 @@ REQUESTOR Controller
 /newBloodRequestor
 
 (DELETE Requestor Data with request_id from requestor_table)
-/deleteRequestor
+/deleteRequestor/{id}
 
 --------------------------------------------------------------
 BLOODDETAIL Controller
@@ -53,5 +54,17 @@ BLOODDETAIL Controller
 
 (GET All Blood Details (Available or Expired or Consumed) from donorDonatedBlood_table)
 /getAllBloodDetail
+
+(GET All Blood Details (blood_type, unit_of_blood, expiry_date, CheckDonate) from donorDonatedBlood_table)
+/getAllBloodData
+
+(GET Available Blood (blood_type, quantity) from donorDonatedBlood_table)
+/getBlood/available
+
+(GET Consumed Blood (blood_type, quantity) from donorDonatedBlood_table)
+/getBlood/consumed
+
+(GET Expired Blood (blood_type, quantity) from donorDonatedBlood_table)
+/getBlood/expired
 
 --------------------------------------------------------------

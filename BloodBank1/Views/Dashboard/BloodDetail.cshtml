@@ -1,6 +1,8 @@
-﻿@{
+﻿@model List<Dictionary<string, int>>;
+
+@{
     Layout = "~/Views/Shared/_LayoutDashboard.cshtml";
-    ViewData["Title"] = "Blood Bank Expired or Consumed Blood";
+    ViewData["Title"] = "BloodBank Blood Details";
 }
 
 <div id="wrapper">
@@ -13,9 +15,17 @@
                     <span class="icon-bar"></span>
                 </button>
 
+                <button class="navbar-toggle btn-primary btn-lg" data-toggle="collapse" onclick="document.location='@Url.Action("Index", "BankBlood")'">
+                    <i class="fa fa-tint" aria-hidden="true"></i> BloodBank2
+                </button>
+
                 <a class="navbar-brand logoimg" href="@Url.Action("Index", "Dashboard")">
                     <img src="~/assets/images/logo.png" alt="LOGO" style="width: 190px; height: 45px;">
                 </a>
+            </div>
+
+            <div class="text-right collapse navbar-collapse" style="margin-top:10px;" id="myBtn">
+                <a href="@Url.Action("Index", "BankBlood")" type="button" class="btn btn-lg btn-primary"><i class="fa fa-tint"></i> BloodBank2 Blood Stock Detail</a>
             </div>
 
             <div class="collapse navbar-collapse" id="myNavbar">
@@ -24,19 +34,19 @@
                         <a href="@Url.Action("Index", "Dashboard")"><i class="fa fa-home"></i> Dashboard</a>
                     </li>
                     <li>
-                        <a href="@Url.Action("NewDonor", "Dashboard")"><i class="fa fa-user"></i> New Donor</a>
+                        <a href="@Url.Action("BloodRequest", "Dashboard")"><i class="fa fa-tint"></i> Request Blood</a>
                     </li>
                     <li>
-                        <a href="@Url.Action("BloodDonors", "Dashboard")"><i class="fa fa-plus-square"></i> Blood Doners</a>
+                        <a href="@Url.Action("NewDonor", "Dashboard")"><i class="fa fa-plus-square"></i> Add New Donor</a>
                     </li>
                     <li>
-                        <a href="@Url.Action("BloodRequest", "Dashboard")"><i class="fa fa-tint"></i> Blood To Request</a>
-                    </li>
-                    <li>
-                        <a href="@Url.Action("BloodDetail", "Dashboard")"><i class="fa fa-eraser"></i> Blood Detail</a>
+                        <a href="@Url.Action("BloodDonors", "Dashboard")"><i class="fa fa-user"></i> Blood Doners</a>
                     </li>
                     <li>
                         <a href="@Url.Action("BloodRecievers", "Dashboard")"><i class="fa fa-address-book"></i> Blood Recievers</a>
+                    </li>
+                    <li>
+                        <a href="@Url.Action("BloodDetail", "Dashboard")"><i class="fa fa-eraser"></i> Blood Detail</a>
                     </li>
                     <li>
                         <a href="#"><i class="fa fa-sign-out"></i> Logout</a>
@@ -52,98 +62,136 @@
             <div class="row" id="main">
 
                 <!--Available Blood Table-->
-                <div class="col-sm-12 col-md-12 well" id="content">
-                    <h1 class="text-center">Available Blood Details</h1>
-                    <table class="table table-bordered table-responsive-lg" id="Available_bloodTable">
+                <div class="col-sm-4 col-md-4 col-lg-4 well" id="content">
+                    <table class="table table-bordered table-responsive-lg" id="availableBloodTable">
                         <tbody>
+                            <tr style="background-color: #F1F3FF;">
+                                <td colspan="2">
+                                    <h3 class="text-center">Available Blood</h3>
+                                </td>
+                            </tr>
                             <tr>
                                 <td class="text-center"><strong>Blood Type</strong></td>
-                                <td class="text-center"><strong>O+</strong></td>
-                                <td class="text-center"><strong>O-</strong></td>
-                                <td class="text-center"><strong>A+</strong></td>
-                                <td class="text-center"><strong>A-</strong></td>
-                                <td class="text-center"><strong>B+</strong></td>
-                                <td class="text-center"><strong>B-</strong></td>
-                                <td class="text-center"><strong>AB+</strong></td>
-                                <td class="text-center"><strong>AB-</strong></td>
-                            </tr>
-                            <tr>
                                 <td class="text-center"><strong>Unit of Blood</strong></td>
-                                <td class="text-center" id="op">5</td>
-                                <td class="text-center" id="on">15</td>
-                                <td class="text-center" id="ap">7</td>
-                                <td class="text-center" id="an">5</td>
-                                <td class="text-center" id="bp">5</td>
-                                <td class="text-center" id="bn">10</td>
-                                <td class="text-center" id="abp">5</td>
-                                <td class="text-center" id="abn">10</td>
                             </tr>
+
+                            @if (Model.Any())
+                            {
+                                @if (Model[0].Count > 0)
+                                {
+                                    @foreach (var item in Model[0])
+                                    {
+                                        <tr style="background-color: #FFFFFF;">
+                                            <td class="text-center">@item.Key</td>
+                                            <td class="text-center" id="op">@item.Value</td>
+                                        </tr>
+                                    }
+                                }
+                                else
+                                {
+                                    <tr style="background-color: #FFFFFF;">
+                                        <td colspan="2" class="text-center">No Data</td>
+                                    </tr>
+                                }
+                            }
+                            else
+                            {
+                                <tr style="background-color: #FFFFFF;">
+                                    <td colspan="2" class="text-center">No Data</td>
+                                </tr>
+                            }
+
                         </tbody>
                     </table>
                 </div>
 
                 <!--Consumed Blood Table-->
-                <div class="col-sm-12 col-md-12 well" id="content">
-                    <h1 class="text-center">Consumed or Used Blood Details</h1>
-                    <table class="table table-bordered table-responsive-lg" id="Consumed_bloodTable">
+                <div class="col-sm-4 col-md-4 col-lg-4 well" id="content">
+                    <table class="table table-bordered table-responsive-lg" id="consumedBloodTable">
                         <tbody>
+                            <tr style="background-color: #F1F3FF;">
+                                <td colspan="2">
+                                    <h3 class="text-center">Consumed Blood</h3>
+                                </td>
+                            </tr>
                             <tr>
                                 <td class="text-center"><strong>Blood Type</strong></td>
-                                <td class="text-center"><strong>O+</strong></td>
-                                <td class="text-center"><strong>O-</strong></td>
-                                <td class="text-center"><strong>A+</strong></td>
-                                <td class="text-center"><strong>A-</strong></td>
-                                <td class="text-center"><strong>B+</strong></td>
-                                <td class="text-center"><strong>B-</strong></td>
-                                <td class="text-center"><strong>AB+</strong></td>
-                                <td class="text-center"><strong>AB-</strong></td>
-                            </tr>
-                            <tr>
                                 <td class="text-center"><strong>Unit of Blood</strong></td>
-                                <td class="text-center" id="op">5</td>
-                                <td class="text-center" id="on">15</td>
-                                <td class="text-center" id="ap">7</td>
-                                <td class="text-center" id="an">5</td>
-                                <td class="text-center" id="bp">5</td>
-                                <td class="text-center" id="bn">10</td>
-                                <td class="text-center" id="abp">5</td>
-                                <td class="text-center" id="abn">10</td>
                             </tr>
+
+                            @if (Model.Any())
+                            {
+                                @if (Model[1].Count > 0)
+                                {
+                                    @foreach (var item in Model[1])
+                                    {
+                                        <tr style="background-color: #FFFFFF;">
+                                            <td class="text-center">@item.Key</td>
+                                            <td class="text-center" id="op">@item.Value</td>
+                                        </tr>
+                                    }
+                                }
+                                else
+                                {
+                                    <tr style="background-color: #FFFFFF;">
+                                        <td colspan="2" class="text-center">No Data</td>
+                                    </tr>
+                                }
+                            }
+                            else
+                            {
+                                <tr style="background-color: #FFFFFF;">
+                                    <td colspan="2" class="text-center">No Data</td>
+                                </tr>
+                            }
+
                         </tbody>
                     </table>
                 </div>
 
                 <!--Expired Blood Table-->
-                <div class="col-sm-12 col-md-12 well" id="content">
-                    <h1 class="text-center">Expired Blood Details</h1>
-                    <table class="table table-bordered table-responsive-lg" id="Expired_bloodTable">
+                <div class="col-sm-4 col-md-4 col-lg-4 well" id="content">
+                    <table class="table table-bordered table-responsive-lg" id="expiredBloodTable">
                         <tbody>
+                            <tr style="background-color: #F1F3FF;">
+                                <td colspan="2">
+                                    <h3 class="text-center">Expired Blood</h3>
+                                </td>
+                            </tr>
                             <tr>
                                 <td class="text-center"><strong>Blood Type</strong></td>
-                                <td class="text-center"><strong>O+</strong></td>
-                                <td class="text-center"><strong>O-</strong></td>
-                                <td class="text-center"><strong>A+</strong></td>
-                                <td class="text-center"><strong>A-</strong></td>
-                                <td class="text-center"><strong>B+</strong></td>
-                                <td class="text-center"><strong>B-</strong></td>
-                                <td class="text-center"><strong>AB+</strong></td>
-                                <td class="text-center"><strong>AB-</strong></td>
-                            </tr>
-                            <tr>
                                 <td class="text-center"><strong>Unit of Blood</strong></td>
-                                <td class="text-center" id="op">5</td>
-                                <td class="text-center" id="on">15</td>
-                                <td class="text-center" id="ap">7</td>
-                                <td class="text-center" id="an">5</td>
-                                <td class="text-center" id="bp">5</td>
-                                <td class="text-center" id="bn">10</td>
-                                <td class="text-center" id="abp">5</td>
-                                <td class="text-center" id="abn">10</td>
                             </tr>
+
+                            @if (Model.Any())
+                            {
+                                @if (Model[2].Count > 0)
+                                {
+                                    @foreach (var item in Model[2])
+                                    {
+                                        <tr style="background-color: #FFFFFF;">
+                                            <td class="text-center">@item.Key</td>
+                                            <td class="text-center" id="op">@item.Value</td>
+                                        </tr>
+                                    }
+                                }
+                                else
+                                {
+                                    <tr style="background-color: #FFFFFF;">
+                                        <td colspan="2" class="text-center">No Data</td>
+                                    </tr>
+                                }
+                            }
+                            else
+                            {
+                                <tr style="background-color: #FFFFFF;">
+                                    <td colspan="2" class="text-center">No Data</td>
+                                </tr>
+                            }
+
                         </tbody>
                     </table>
                 </div>
-
 
             </div>
         </div>

@@ -1,0 +1,395 @@
+{
+	"info": {
+		"_postman_id": "832a153c-f2c1-4cd3-90f7-0c4b05faf72d",
+		"name": "bloodbank1",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Dashboard",
+			"item": [
+				{
+					"name": "GET All Bloodbank Stock",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://localhost:44353/getBloodStock",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "44353",
+							"path": [
+								"getBloodStock"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Donor",
+			"item": [
+				{
+					"name": "GET All Donors data",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://localhost:44353/getDonor",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "44353",
+							"path": [
+								"getDonor"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET Donor Record by ID",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://localhost:44353/getDonor/3",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "44353",
+							"path": [
+								"getDonor",
+								"3"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET Donor blood donation record by ID",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://localhost:44353/getDonorDonation/4",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "44353",
+							"path": [
+								"getDonorDonation",
+								"4"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "POST Add new Donor",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"firstname\": \"Hammad\",\r\n    \"lastname\": \"Ismaeil\",\r\n    \"dob\": \"2000-05-28T00:00:00\",\r\n    \"gender\": \"Male\",\r\n    \"blood_type\": \"O+\",\r\n    \"last_date_donation\": \"2020-01-01T00:00:00\",\r\n    \"contact_number\": \"03332223319\",\r\n    \"email_id\": \"\",\r\n    \"city\": \"Karachi\",\r\n    \"address\": \"\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://localhost:44353/addNewDonor",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "44353",
+							"path": [
+								"addNewDonor"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "POST Add new Blood Donation of Donor",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"donor_id\": 4,\r\n    \"blood_type\": \"A+\",\r\n    \"unit_of_blood\": 900,\r\n    \"date_donated\": \"2020-05-28T00:00:00\",\r\n    \"expiry_date\": \"2021-01-28T00:00:00\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://localhost:44353/addNewDonorDonation",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "44353",
+							"path": [
+								"addNewDonorDonation"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "PUT Update Donor record by ID",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"donor_id\": 5,\r\n    \"firstname\": \"Hammad\",\r\n    \"lastname\": \"Ismaeil\",\r\n    \"dob\": \"2000-05-28T00:00:00\",\r\n    \"gender\": \"Male\",\r\n    \"blood_type\": \"O+\",\r\n    \"last_date_donation\": \"2020-01-01T00:00:00\",\r\n    \"contact_number\": \"03332223319\",\r\n    \"email_id\": \"\",\r\n    \"city\": \"Karachi\",\r\n    \"address\": \"\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://localhost:44353/editDonor",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "44353",
+							"path": [
+								"editDonor"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "DELETE Donor by ID",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "https://localhost:44353/deleteDonor/6",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "44353",
+							"path": [
+								"deleteDonor",
+								"6"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Requestor",
+			"item": [
+				{
+					"name": "GET All Blood Requestor Data",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://localhost:44353/getRequestor",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "44353",
+							"path": [
+								"getRequestor"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "POST ADD New Requestor who want blood",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"fullname\": \"Ali Rehman\",\r\n    \"dob\": \"1997-07-20T00:00:00\",\r\n    \"gender\": \"Male\",\r\n    \"contact_number\": \"03332211020\",\r\n    \"city\": \"Karachi\",\r\n    \"blood_id\": 4,\r\n    \"date_recieved\": \"2021-05-07T00:00:00\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://localhost:44353/newBloodRequestor",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "44353",
+							"path": [
+								"newBloodRequestor"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "DELETE Requestor Data by ID",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "https://localhost:44353/deleteRequestor/24",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "44353",
+							"path": [
+								"deleteRequestor",
+								"24"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Blood Detail",
+			"item": [
+				{
+					"name": "GET All Blood Detail with Donors",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://localhost:44353/getAllBloodWithDonor",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "44353",
+							"path": [
+								"getAllBloodWithDonor"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET All Blood Details",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://localhost:44353/getAllBloodDetail",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "44353",
+							"path": [
+								"getAllBloodDetail"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET All Blood Details (blood_type, unit_of_blood, expiry_date, CheckDonate)",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://localhost:44353/getAllBloodData",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "44353",
+							"path": [
+								"getAllBloodData"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET Available Blood",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://localhost:44353/getBlood/available",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "44353",
+							"path": [
+								"getBlood",
+								"available"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET Consumed Blood",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://localhost:44353/getBlood/consumed",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "44353",
+							"path": [
+								"getBlood",
+								"consumed"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET Expired Blood",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://localhost:44353/getBlood/expired",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "44353",
+							"path": [
+								"getBlood",
+								"expired"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}

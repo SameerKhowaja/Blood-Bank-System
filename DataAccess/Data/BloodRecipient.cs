@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace DataAccess.Data
 {
-    public class BloodDonor
+    public class BloodRecipient
     {
         [Key]
         public int Id { get; set; }
@@ -17,7 +17,7 @@ namespace DataAccess.Data
         [Required]
         public string BloodType { get; set; }
         [Required]
-        public DateTime LastDonatedAt { get; set; }
+        public DateTime LastReceivedAt { get; set; }
         [Required]
         public string PhoneNumber { get; set; }
         public string EmailAddress { get; set; }
@@ -25,6 +25,6 @@ namespace DataAccess.Data
         [Required]
         public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
         [Required]
-        public List<DonationRecord> DonationRecords { get; set; }
+        public List<ReceptionRecord> ReceptionRecords { get; set; }
     }
 }
