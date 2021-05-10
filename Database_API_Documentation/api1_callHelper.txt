@@ -18,6 +18,9 @@ DONOR Controller
 (GET Donor blood donation record with donor_id from donorDonatedBlood_table)
 /getDonorDonation/{id}
 
+(GET Donor Blood donation record by id)
+/getDonorDonation/{id}
+
 (POST Add new Donor to donors_table)
 /addNewDonor
 
@@ -52,11 +55,17 @@ BLOODDETAIL Controller
 (GET All Blood Detail (Available or Expired or Consumed) from donorDonatedBlood_table with donors_table information)
 /getAllBloodWithDonor
 
+(GET donor_id from blood_d)
+/getDonorIdByBloodId/{id}
+
 (GET All Blood Details (Available or Expired or Consumed) from donorDonatedBlood_table)
 /getAllBloodDetail
 
 (GET All Blood Details (blood_type, unit_of_blood, expiry_date, CheckDonate) from donorDonatedBlood_table)
 /getAllBloodData
+
+(GET All Available Blood Details (NOT Expired or Consumed))
+/getAllAvailableBloodDetail
 
 (GET Available Blood (blood_type, quantity) from donorDonatedBlood_table)
 /getBlood/available
@@ -66,5 +75,8 @@ BLOODDETAIL Controller
 
 (GET Expired Blood (blood_type, quantity) from donorDonatedBlood_table)
 /getBlood/expired
+
+(Delete Blood Data by blood_id)
+/deleteBloodData/{id}
 
 --------------------------------------------------------------

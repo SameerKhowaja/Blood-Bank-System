@@ -102,7 +102,7 @@
 
                                     <td class="text-center">
                                         <div class="btn-group" role="group">
-                                            <button id="@item.blood_id" type="button" class="btn btn-primary" data-toggle="modal" data-target="#recieverInfoModal"><i class="fa fa-plus-circle"></i> Request Blood</button>
+                                            <button id="@item.blood_id" type="button" class="btn btn-primary request"><i class="fa fa-plus-circle"></i> Request Blood</button>
                                             <button id="@item.blood_id" type="button" class="btn btn-danger delete"><i class="fa fa-trash"></i></button>
                                         </div>
                                     </td>
@@ -123,7 +123,7 @@
                 <div class="modal-header">
                     <h3 class="modal-title text-center">Blood Reciever Information</h3>
                 </div>
-                <form id="form1" action="">
+                <form id="requestForm" action="">
                     <div class="modal-body">
                         <table class="table table-borderless">
                             <tbody>
@@ -132,7 +132,7 @@
                                         <label for="blood_id">Blood ID*</label>
                                     </th>
                                     <td>
-                                        <input type="text" class="form-control" id="blood_id" value="1" disabled>
+                                        <input type="text" class="form-control" name="blood_id" id="blood_id" value="1" disabled>
                                     </td>
                                 </tr>
                                 <tr>
@@ -140,7 +140,7 @@
                                         <label for="bloodType">Blood Type*</label>
                                     </th>
                                     <td>
-                                        <input type="text" class="form-control" id="bloodType" value="O+" disabled>
+                                        <input type="text" class="form-control" name="blood_type" id="bloodType" value="O+" disabled>
                                     </td>
                                 </tr>
                                 <tr>
@@ -153,7 +153,7 @@
                                         <label for="fullName">Full Name*</label>
                                     </th>
                                     <td>
-                                        <input type="text" class="form-control" id="fullName" placeholder="Full Name" required>
+                                        <input type="text" class="form-control" name="fullname" id="fullName" placeholder="Full Name" required>
                                     </td>
                                 </tr>
                                 <tr>
@@ -161,7 +161,7 @@
                                         <label for="dob">Date of Birth*</label>
                                     </th>
                                     <td>
-                                        <input type="date" class="form-control" id="dob" required>
+                                        <input type="date" class="form-control" name="dob" id="dob" required>
                                     </td>
                                 </tr>
                                 <tr>
@@ -169,7 +169,7 @@
                                         <label for="gender">Gender*</label>
                                     </th>
                                     <td>
-                                        <select class="form-control" id="gender" required>
+                                        <select class="form-control" name="gender" id="gender" required>
                                             <option>Male</option>
                                             <option>Female</option>
                                             <option>Other</option>
@@ -181,7 +181,7 @@
                                         <label for="contactNumber">Contact Number*</label>
                                     </th>
                                     <td>
-                                        <input type="text" class="form-control" id="contactNumber" placeholder="Contact Number" required>
+                                        <input type="text" class="form-control" name="contact_number" id="contactNumber" placeholder="Contact Number" required>
                                     </td>
                                 </tr>
                                 <tr>
@@ -189,7 +189,7 @@
                                         <label for="city">City*</label>
                                     </th>
                                     <td>
-                                        <input type="text" class="form-control" id="city" placeholder="City" required>
+                                        <input type="text" class="form-control" name="city" id="city" placeholder="City" required>
                                     </td>
                                 </tr>
                             </tbody>
@@ -211,7 +211,7 @@
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h3 class="modal-title text-center">Confirm Delete Donor</h3>
+                    <h3 class="modal-title text-center">Confirm Delete</h3>
                 </div>
                 <form id="deleteForm" action="">
                     <div class="modal-body">
@@ -257,6 +257,21 @@
             // Add data to Modal
             $('#deleteForm').attr('action', 'BloodDataDelete/' + id);
             $('#bloodDeleteModal').modal('show');
+        });
+
+        // Add New Request Modal
+        $('#bloodTable tbody').on('click', '.request', function () {
+            var curr_row = $(this).closest('tr');
+            var blood_id = curr_row.find('td:eq(0)').text();
+            var bloodType = curr_row.find('td:eq(3)').text();
+
+            // Set Values
+            $("#blood_id").val(blood_id);
+            $("#bloodType").val(bloodType);
+
+            // Add data to Modal
+            $('#requestForm').attr('action', 'BloodRequestorAdd/' + blood_id);
+            $('#recieverInfoModal').modal('show');
         });
     });
 </script>

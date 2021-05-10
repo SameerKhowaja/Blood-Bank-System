@@ -87,6 +87,20 @@
                             <a class="btn btn-lg btn-primary text-center" href="javascript: history.go(-1)">BACK</a>
                         </div>
                     }
+                    else if (@ViewData["Message"].ToString() == "4")
+                    {
+                        <h1 class="text-center">Blood Donated To Reciever Successfully...!</h1>
+                        <div class="text-center">
+                            <a class="btn btn-lg btn-primary text-center" href="@Url.Action("BloodRequest", "Dashboard")">Request More Blood</a>
+                        </div>
+                    }
+                    else if (@ViewData["Message"].ToString() == "5")
+                    {
+                        <h1 class="text-center">Blood Donation Failed...!</h1>
+                        <div class="text-center">
+                            <a class="btn btn-lg btn-primary text-center" href="javascript: history.go(-1)">BACK</a>
+                        </div>
+                    }
                     else
                     {
                         <h1 class="text-center">Message</h1>

@@ -57,7 +57,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "https://localhost:44353/getDonor/3",
+							"raw": "https://localhost:44353/getDonor/1",
 							"protocol": "https",
 							"host": [
 								"localhost"
@@ -65,7 +65,7 @@
 							"port": "44353",
 							"path": [
 								"getDonor",
-								"3"
+								"1"
 							]
 						}
 					},
@@ -126,7 +126,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"donor_id\": 4,\r\n    \"blood_type\": \"A+\",\r\n    \"unit_of_blood\": 900,\r\n    \"date_donated\": \"2020-05-28T00:00:00\",\r\n    \"expiry_date\": \"2021-01-28T00:00:00\"\r\n}",
+							"raw": "{\r\n    \"donor_id\": 1,\r\n    \"unit_of_blood\": 900,\r\n    \"date_donated\": \"2020-05-28T00:00:00\",\r\n    \"expiry_date\": \"2021-10-28T00:00:00\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -154,7 +154,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"donor_id\": 5,\r\n    \"firstname\": \"Hammad\",\r\n    \"lastname\": \"Ismaeil\",\r\n    \"dob\": \"2000-05-28T00:00:00\",\r\n    \"gender\": \"Male\",\r\n    \"blood_type\": \"O+\",\r\n    \"last_date_donation\": \"2020-01-01T00:00:00\",\r\n    \"contact_number\": \"03332223319\",\r\n    \"email_id\": \"\",\r\n    \"city\": \"Karachi\",\r\n    \"address\": \"\"\r\n}",
+							"raw": "{\r\n    \"donor_id\": 1,\r\n    \"firstname\": \"Sameer\",\r\n    \"lastname\": \"Khowaja\",\r\n    \"dob\": \"2000-05-28T00:00:00\",\r\n    \"gender\": \"Male\",\r\n    \"blood_type\": \"B-\",\r\n    \"last_date_donation\": \"2020-01-01T00:00:00\",\r\n    \"contact_number\": \"03333333319\",\r\n    \"email_id\": \"\",\r\n    \"city\": \"Karachi\",\r\n    \"address\": \"\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -181,7 +181,7 @@
 						"method": "DELETE",
 						"header": [],
 						"url": {
-							"raw": "https://localhost:44353/deleteDonor/6",
+							"raw": "https://localhost:44353/deleteDonor/7",
 							"protocol": "https",
 							"host": [
 								"localhost"
@@ -189,7 +189,7 @@
 							"port": "44353",
 							"path": [
 								"deleteDonor",
-								"6"
+								"7"
 							]
 						}
 					},
@@ -253,7 +253,7 @@
 						"method": "DELETE",
 						"header": [],
 						"url": {
-							"raw": "https://localhost:44353/deleteRequestor/24",
+							"raw": "https://localhost:44353/deleteRequestor/25",
 							"protocol": "https",
 							"host": [
 								"localhost"
@@ -261,7 +261,7 @@
 							"port": "44353",
 							"path": [
 								"deleteRequestor",
-								"24"
+								"25"
 							]
 						}
 					},
@@ -286,6 +286,26 @@
 							"port": "44353",
 							"path": [
 								"getAllBloodWithDonor"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET Donor ID from Blood ID",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://localhost:44353/getDonorIdByBloodId/19",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "44353",
+							"path": [
+								"getDonorIdByBloodId",
+								"19"
 							]
 						}
 					},
@@ -324,6 +344,25 @@
 							"port": "44353",
 							"path": [
 								"getAllBloodData"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET All Available Blood Details (NOT Expired or Consumed)",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://localhost:44353/getAllAvailableBloodDetail",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "44353",
+							"path": [
+								"getAllAvailableBloodDetail"
 							]
 						}
 					},
@@ -384,6 +423,26 @@
 							"path": [
 								"getBlood",
 								"expired"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Blood Data by Blood ID",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "https://localhost:44353/deleteBloodData/11",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "44353",
+							"path": [
+								"deleteBloodData",
+								"11"
 							]
 						}
 					},

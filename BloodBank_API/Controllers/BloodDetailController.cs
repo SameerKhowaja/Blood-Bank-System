@@ -39,6 +39,26 @@ namespace BloodBank_API.Controllers
             }
         }
 
+        // GET Donor ID from blood_id from donorDonatedBlood_table
+        [Route("getDonorIdByBloodId/{id}")]
+        [HttpGet]
+        public HttpResponseMessage getDonorDataByBloodID(int id)
+        {
+            try
+            {
+                string query = "SELECT donor_id from donorDonatedBlood_table WHERE blood_id = '" + id + "' AND CheckDonate = 0";
+
+                DataTable dt = gc.GetData_Database(query);
+                if (dt.Rows.Count > 0) { return Request.CreateResponse(HttpStatusCode.OK, dt); }
+                else { return Request.CreateResponse(HttpStatusCode.OK, 0); }
+            }
+            catch
+            {
+                // Error occured
+                return Request.CreateResponse(HttpStatusCode.OK, -1);
+            }
+        }
+
         // GET All Blood Details (Available or Expired or Consumed) from donorDonatedBlood_table
         [Route("getAllBloodDetail")]
         [HttpGet]
@@ -202,5 +222,6 @@ namespace BloodBank_API.Controllers
                 return Request.CreateResponse(HttpStatusCode.OK, -1);
             }
         }
+
     }
 }

@@ -103,7 +103,10 @@
                                         </tr>
                                     </tbody>
                                 </table>
+                            </div>
 
+                            <div class="col-lg-12 text-center" style="margin-top:4px;">
+                                <a class="btn btn-primary text-center" href="javascript: history.go(-1)">Back To List</a>
                             </div>
                         </div>
 
@@ -117,7 +120,7 @@
                             <!--Donor Blood History Table-->
                             <table class="table table-hover table-responsive-lg" id="bloodHistoryTable">
                                 <thead>
-                                    <tr>
+                                    <tr style="background-color: #F1F3FF; border:1px solid #CCCCCC;">
                                         <th class="text-center">ID</th>
                                         <th class="text-center">Units of Blood</th>
                                         <th class="text-center">Donation Date</th>
@@ -146,7 +149,7 @@
                                             <td class="text-center">@item.date_donated.ToString("dd/MM/yyyy")</td>
                                             <td class="text-center">@item.expiry_date.ToString("dd/MM/yyyy")</td>
                                             @if(@item.CheckDonate == 0) { 
-                                                <td class="text-center">No</td> 
+                                                <td class="text-center">No</td>
                                             }
                                             else { 
                                                 <td class="text-center">Yes</td> 
@@ -154,7 +157,7 @@
                                         
                                             <td class="text-center">
                                                 <div class="btn-group" role="group">
-                                                    <button id="@item.blood_id" type="button" class="btn btn-danger" data-toggle="modal" data-target="#donorDeleteBloodModal"><i class="fa fa-trash"></i> Remove</button>
+                                                    <button id="@item.blood_id" type="button" class="btn btn-danger deleteBlood"><i class="fa fa-trash"></i> Remove</button>
                                                 </div>
                                             </td>
                                         </tr>
@@ -176,7 +179,7 @@
                 <div class="modal-header">
                     <h3 class="modal-title text-center">Confirm Delete</h3>
                 </div>
-                <form>
+                <form id="deleteForm" action="">
                     <div class="modal-body">
                         <table class="table table-borderless" hidden>
                             <tbody>
@@ -190,12 +193,13 @@
                                 </tr>
                             </tbody>
                         </table>
-                        <h4 class="text-center">Are you Sure to Delete this Donor Donated Blood Record Permanently.</h4>
+                        <h4 class="text-center">Are you Sure to Delete this Donor's Blood Record Permanently.</h4>
+                        <h4 class="text-center"><strong>(May Effect Other Record)</strong></h4>
                     </div>
 
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                        <button type="submit" class="btn btn-danger">Delete</button>
+                        <button type="submit" class="btn btn-danger">Delete Data</button>
                     </div>
                 </form>
             </div>
@@ -211,6 +215,16 @@
             $("#bloodHistoryTable tbody tr").filter(function () {
                 $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
             });
+        });
+
+        // Delete Modal
+        $('#bloodHistoryTable tbody').on('click', '.deleteBlood', function () {
+            var curr_row = $(this).closest('tr');
+            var id = curr_row.find('td:eq(0)').text();
+
+            // Add data to Modal
+            $('#deleteForm').attr('action', '../DonorBloodDataDelete/' + id);
+            $('#donorDeleteBloodModal').modal('show');
         });
     });
 </script>

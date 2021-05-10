@@ -201,7 +201,7 @@ namespace BloodBank1.Controllers
             }
         }
 
-        // Donor Donatating Blood
+        // Add Donor Donatating Blood
         public dynamic DonorDonateBlood(int id, DateTime expiry_date, string unit_of_blood)
         {
             try
@@ -237,7 +237,7 @@ namespace BloodBank1.Controllers
             }
         }
 
-        // Donor History Page to View Donor and their donation
+        // Donor History Page to View Donor and there blood donations
         [HttpGet]
         public IActionResult BloodDonorHistory(int id)
         {
@@ -293,6 +293,42 @@ namespace BloodBank1.Controllers
                 bloodList.Clear();
                 bloodList.Add(new DonorDonatedBlood() { blood_id = 0 });
                 return View(bloodList);
+            }
+        }
+
+        // Delete Blood Data of Donated Donor from BloodDonorHistory
+        public IActionResult DonorBloodDataDelete(int id)
+        {
+            try
+            {
+                // GET Donor Data by blood ID
+                var donorData = httpClient.GetStringAsync(basePath + "getDonorIdByBloodId/" + id.ToString()).Result;
+                dynamic jsonObj = JsonConvert.DeserializeObject(donorData);
+                try
+                {
+                    int donor_id = (int)jsonObj[0]["donor_id"];
+
+                    //HTTP DELETE
+                    var postTask = httpClient.DeleteAsync(basePath + "deleteBloodData/" + id.ToString());
+
+                    var result = postTask.Result;
+                    if (result.IsSuccessStatusCode)
+                    {
+                        return RedirectToAction("BloodDonorHistory", new { id = donor_id });
+                    }
+                    else
+                    {
+                        return RedirectToAction("ErrorPage");
+                    }
+                }
+                catch
+                {
+                    return RedirectToAction("ErrorPage");
+                }
+            }
+            catch
+            {
+                return RedirectToAction("ErrorPage");
             }
         }
 
@@ -531,6 +567,39 @@ namespace BloodBank1.Controllers
                 requestor.Clear();
                 requestor.Add(new Requestor() { request_id = 0 });
                 return View(requestor);
+            }
+        }
+
+        // POST new Requestor and Donate Blood
+        public dynamic BloodRequestorAdd(int id, Requestor requestor)
+        {
+            try
+            {
+                requestor.blood_id = id; // set Blood ID
+                DateTime date_recieved = DateTime.Now;
+                requestor.date_recieved = date_recieved; // set current date
+
+                httpClient.BaseAddress = new Uri(basePath);
+                httpClient.DefaultRequestHeaders.Accept.Clear();
+                httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+
+                //HTTP POST
+                var stringContent = new StringContent(JsonConvert.SerializeObject(requestor), Encoding.UTF8, "application/json");
+                var postTask = httpClient.PostAsync(basePath + "newBloodRequestor", stringContent);
+
+                var result = postTask.Result;
+                if (result.IsSuccessStatusCode)
+                {
+                    return RedirectToAction("Message", new { id = 4 });
+                }
+                else
+                {
+                    return RedirectToAction("Message", new { id = 5 });
+                }
+            }
+            catch
+            {
+                return RedirectToAction("ErrorPage");
             }
         }
 
