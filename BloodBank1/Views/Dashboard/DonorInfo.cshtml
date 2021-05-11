@@ -47,6 +47,9 @@
                         <a href="@Url.Action("BloodDetail", "Dashboard")"><i class="fa fa-eraser"></i> Blood Detail</a>
                     </li>
                     <li>
+                        <a href="@Url.Action("DonationDetail", "Dashboard")"><i class="fa fa-users"></i> Donation Detail</a>
+                    </li>
+                    <li>
                         <a href="#"><i class="fa fa-sign-out"></i> Logout</a>
                     </li>
                 </ul>
@@ -60,7 +63,7 @@
             <div class="row" id="main">
                 <div class="col-sm-12 col-md-12 well" id="content">
 
-                    <div class="col-lg-4">
+                    <div class="col-lg-5">
                         <div style="border: 1px solid #C5C2C2;">
                             <table class="table table-hover table-responsive-lg" id="donorTable">
                                 <tbody>
@@ -110,9 +113,13 @@
                                 </tbody>
                             </table>
                         </div>
+
+                        <div class="col-lg-12 text-center" style="margin-top:4px;">
+                            <a class="btn btn-primary text-center" href="@Url.ActionLink("BloodDonors", "Dashboard")">Back To List</a>
+                        </div>
                     </div>
 
-                    <div class="col-lg-8">
+                    <div class="col-lg-7">
                         <form id="form1" method="post" action="@Url.Action("DonorUpdate", "Dashboard", new { id = @ViewData["donor_id"] })" enctype="application/x-www-form-urlencoded">
                             <!--Row 0-->
                             <div class="form-row">
@@ -172,7 +179,7 @@
                             <div class="form-row">
                                 <div class="form-group col-md-6">
                                     <label for="contact_number">Contact Number*</label>
-                                    <input type="text" class="form-control" name="contact_number" id="contact_number" placeholder="033XXXXXXXXX" value="@ViewData["contact_number"]" required>
+                                    <input type="text" class="form-control" name="contact_number" id="contact_number" placeholder="033XXXXXXXXX" value="@ViewData["contact_number"]" onkeyup="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')" required>
                                 </div>
                                 <div class="form-group col-md-6">
                                     <label for="email_id">Email Address</label>

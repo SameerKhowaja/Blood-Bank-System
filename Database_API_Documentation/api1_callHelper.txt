@@ -15,10 +15,10 @@ DONOR Controller
 (GET Donor Record with donor_id from donors_table)
 /getDonor/{id}
 
-(GET Donor blood donation record with donor_id from donorDonatedBlood_table)
-/getDonorDonation/{id}
+(GET Donor Record Data with blood_id from donors_table)
+/getDonorDataByBloodID/{id}
 
-(GET Donor Blood donation record by id)
+(GET Donor blood donation record with donor_id from donorDonatedBlood_table)
 /getDonorDonation/{id}
 
 (POST Add new Donor to donors_table)
@@ -78,5 +78,15 @@ BLOODDETAIL Controller
 
 (Delete Blood Data by blood_id)
 /deleteBloodData/{id}
+
+--------------------------------------------------------------
+DONATIONDETAIL	Controller
+
+(GET Doation Detail selected columns from requestor_table join donorDonatedBlood_table join donors_table)
+(Selected Columns names (r_fullname, r_date_recieved, blood_type, unit_of_blood, d_date_donated, d_firstname, d_lastname))
+/getAllDonationDetail
+
+(GET All Doation Detail from requestor_table join donorDonatedBlood_table join donors_table using request_id)
+/getDonationDetailById/{id}
 
 --------------------------------------------------------------

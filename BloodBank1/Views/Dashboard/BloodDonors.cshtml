@@ -49,6 +49,9 @@
                         <a href="@Url.Action("BloodDetail", "Dashboard")"><i class="fa fa-eraser"></i> Blood Detail</a>
                     </li>
                     <li>
+                        <a href="@Url.Action("DonationDetail", "Dashboard")"><i class="fa fa-users"></i> Donation Detail</a>
+                    </li>
+                    <li>
                         <a href="#"><i class="fa fa-sign-out"></i> Logout</a>
                     </li>
                 </ul>
@@ -189,7 +192,7 @@
                                         <label for="unit_of_blood">Unit of Blood Donated*</label>
                                     </th>
                                     <td colspan="3">
-                                        <input type="text" class="form-control" name="unit_of_blood" id="unit_of_blood" placeholder="525" required>
+                                        <input type="text" class="form-control" name="unit_of_blood" id="unit_of_blood" placeholder="525" onkeyup="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')" required>
                                     </td>
                                 </tr>
                             </tbody>

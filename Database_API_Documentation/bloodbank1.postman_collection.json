@@ -449,6 +449,50 @@
 					"response": []
 				}
 			]
+		},
+		{
+			"name": "Donation Detail",
+			"item": [
+				{
+					"name": "GET Doation Detail for selected columns",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://localhost:44353/getAllDonationDetail",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "44353",
+							"path": [
+								"getAllDonationDetail"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET Doation Detail By Request ID",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://localhost:44353/getDonationDetailById/28",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "44353",
+							"path": [
+								"getDonationDetailById",
+								"28"
+							]
+						}
+					},
+					"response": []
+				}
+			]
 		}
 	]
 }

@@ -144,7 +144,7 @@ namespace BloodBank1.Controllers
 
         // Update Donor on Submit from DonorInfo View
         [HttpPost]
-        public dynamic DonorUpdate(int id, Donor donor)
+        public IActionResult DonorUpdate(int id, Donor donor)
         {
             try
             {
@@ -202,7 +202,7 @@ namespace BloodBank1.Controllers
         }
 
         // Add Donor Donatating Blood
-        public dynamic DonorDonateBlood(int id, DateTime expiry_date, string unit_of_blood)
+        public IActionResult DonorDonateBlood(int id, DateTime expiry_date, string unit_of_blood)
         {
             try
             {
@@ -263,7 +263,7 @@ namespace BloodBank1.Controllers
                 return RedirectToAction("ErrorPage");
             }
 
-            
+            long Total_Unit_Donated = 0;
             List<DonorDonatedBlood> bloodList = new List<DonorDonatedBlood>();
             try
             {
@@ -283,8 +283,11 @@ namespace BloodBank1.Controllers
                             expiry_date = (DateTime)obj.expiry_date,
                             CheckDonate = (int)obj.CheckDonate
                         });
+
+                        Total_Unit_Donated += (int)obj.unit_of_blood;
                     }
                 }
+                ViewData["total_unit_donated"] = Total_Unit_Donated;
 
                 return View(bloodList);
             }
@@ -330,6 +333,15 @@ namespace BloodBank1.Controllers
             {
                 return RedirectToAction("ErrorPage");
             }
+        }
+
+        // GET Donor Information by using blood_id
+        [HttpGet]
+        public dynamic GetDonorDataByBloodId(int id)
+        {
+            // Donor Data
+            var donorData = httpClient.GetStringAsync(basePath + "getDonorDataByBloodID/" + id.ToString()).Result;
+            return donorData;
         }
 
         // Display all donor list to view BLoodDonor Page View
@@ -571,7 +583,7 @@ namespace BloodBank1.Controllers
         }
 
         // POST new Requestor and Donate Blood
-        public dynamic BloodRequestorAdd(int id, Requestor requestor)
+        public IActionResult BloodRequestorAdd(int id, Requestor requestor)
         {
             try
             {
@@ -601,6 +613,48 @@ namespace BloodBank1.Controllers
             {
                 return RedirectToAction("ErrorPage");
             }
+        }
+
+        // GET All Donation Details
+        [HttpGet]
+        public IActionResult DonationDetail()
+        {
+            List<DonationDetail> donationList = new List<DonationDetail>();
+            try
+            {
+                var dataFetched = httpClient.GetStringAsync(basePath + "getAllDonationDetail").Result;
+                dynamic jsonObject = JsonConvert.DeserializeObject(dataFetched);
+
+                foreach (var obj in jsonObject)
+                    donationList.Add(new DonationDetail()
+                    {
+                        r_id = (int)obj.r_id,
+                        r_fullname = (string)obj.r_fullname,
+                        r_date_recieved = (DateTime)obj.r_date_recieved,
+                        blood_type = (string)obj.blood_type,
+                        unit_of_blood = (int)obj.unit_of_blood,
+                        d_date_donated = (DateTime)obj.d_date_donated,
+                        d_firstname = (string)obj.d_firstname,
+                        d_lastname = (string)obj.d_lastname
+                    });
+
+                return View(donationList);
+            }
+            catch
+            {
+                donationList.Clear();
+                donationList.Add(new DonationDetail() { r_id = 0 });
+                return View(donationList);
+            }
+        }
+
+        // GET Donation Detail Partial Get of Selected Row by r_id
+        [HttpGet]
+        public dynamic GetDonationDetailById(int id)
+        {
+            // Donation Detail Data
+            var donorData = httpClient.GetStringAsync(basePath + "getDonationDetailById/" + id.ToString()).Result;
+            return donorData;
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

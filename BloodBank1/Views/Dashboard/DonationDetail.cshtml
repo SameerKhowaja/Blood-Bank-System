@@ -1,0 +1,263 @@
+﻿@model List<DonationDetail>;
+
+@{
+    Layout = "~/Views/Shared/_LayoutDashboard.cshtml";
+    ViewData["Title"] = "BloodBank Blood Donations";
+}
+
+<div id="wrapper">
+    <!-- Navigation -->
+    <nav class="navbar navbar-fixed-top" role="navigation">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+                    <i class="fa fa-caret-down fa-lg" aria-hidden="true"></i>
+                    <span class="icon-bar"></span>
+                </button>
+
+                <button class="navbar-toggle btn-primary btn-lg" data-toggle="collapse" onclick="document.location='@Url.Action("Index", "BankBlood")'">
+                    <i class="fa fa-tint" aria-hidden="true"></i> BloodBank2
+                </button>
+
+                <a class="navbar-brand logoimg" href="@Url.Action("Index", "Dashboard")">
+                    <img src="~/assets/images/logo.png" alt="LOGO" style="width: 190px; height: 45px;">
+                </a>
+            </div>
+
+            <div class="text-right collapse navbar-collapse" style="margin-top:10px;" id="myBtn">
+                <a href="@Url.Action("Index", "BankBlood")" type="button" class="btn btn-lg btn-primary"><i class="fa fa-tint"></i> BloodBank2 Blood Stock Detail</a>
+            </div>
+
+            <div class="collapse navbar-collapse" id="myNavbar">
+                <ul class="nav navbar-nav side-nav">
+                    <li>
+                        <a href="@Url.Action("Index", "Dashboard")"><i class="fa fa-home"></i> Dashboard</a>
+                    </li>
+                    <li>
+                        <a href="@Url.Action("BloodRequest", "Dashboard")"><i class="fa fa-tint"></i> Request Blood</a>
+                    </li>
+                    <li>
+                        <a href="@Url.Action("NewDonor", "Dashboard")"><i class="fa fa-plus-square"></i> Add New Donor</a>
+                    </li>
+                    <li>
+                        <a href="@Url.Action("BloodDonors", "Dashboard")"><i class="fa fa-user"></i> Blood Doners</a>
+                    </li>
+                    <li>
+                        <a href="@Url.Action("BloodRecievers", "Dashboard")"><i class="fa fa-address-book"></i> Blood Recievers</a>
+                    </li>
+                    <li>
+                        <a href="@Url.Action("BloodDetail", "Dashboard")"><i class="fa fa-eraser"></i> Blood Detail</a>
+                    </li>
+                    <li>
+                        <a href="@Url.Action("DonationDetail", "Dashboard")"><i class="fa fa-users"></i> Donation Detail</a>
+                    </li>
+                    <li>
+                        <a href="#"><i class="fa fa-sign-out"></i> Logout</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- content -->
+    <div id="page-wrapper">
+        <div class="container-fluid">
+            <div class="row" id="main">
+                <div class="col-lg-12 well" id="content">
+                    <h1 class="text-center">Blood Donation Detail</h1>
+                    <h4 class="text-center"><strong>One unit of blood is ~525 mL, which is roughly the equivalent of one pint.</strong></h4>
+
+                    <div class="input-group col-lg-12 rounded" style="margin-bottom:4px;">
+                        <input id="myInput" type="search" class="form-control rounded" placeholder="Search" aria-label="Search" aria-describedby="search-addon" />
+                    </div>
+
+                    <!--Donation Table-->
+                    <table class="table table-hover table-responsive-lg" id="donationTable">
+                        <thead>
+                            <tr style="background-color: #F1F3FF; border:1px solid #CCCCCC;">
+                                <th class="text-center">Requestor Name</th>
+                                <th class="text-center">Donor Name</th>
+                                <th class="text-center">Blood Type</th>
+                                <th class="text-center">Unit of Blood</th>
+                                <th class="text-center">Date Donated</th>
+                                <th class="text-center">Date Recieved</th>
+                                <th class="text-center">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model)
+                            {
+                                @if (@item.r_id == 0)
+                                {
+                                    <tr>
+                                        <td colspan="9">
+                                            <h4 class="text-center">No Donor Data Found</h4>
+                                        </td>
+                                    </tr>
+
+                                    break;
+                                }
+
+                                <tr>
+                                    <td class="text-center">@item.r_fullname</td>
+                                    <td class="text-center">@item.d_firstname @item.d_lastname</td>
+                                    <td class="text-center">@item.blood_type</td>
+                                    <td class="text-center">@item.unit_of_blood</td>
+                                    <td class="text-center">@item.d_date_donated.ToString("dd/MM/yyyy")</td>
+                                    <td class="text-center">@item.r_date_recieved.ToString("dd/MM/yyyy")</td>
+
+                                    <td class="text-center">
+                                        <div class="btn-group" role="group">
+                                            <button id="@item.r_id" type="button" class="btn btn-primary fullDetail">View Full Detail</button>
+                                        </div>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!--View Full Donation Modal-->
+    <div class="modal fade" id="donationDetailModal" tabindex="-1" role="dialog" aria-labelledby="donationDetailModal" aria-hidden="true">
+        <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3 class="modal-title text-center">Blood Donation Detail</h3>
+                </div>
+
+                <div class="modal-body">
+                    <table class="table table-hover">
+                        <tr style="background-color: #F1F3FF; border:1px solid #CCCCCC;">
+                            <td colspan="3" class="text-center"><h4 class="display-6">Donor Information</h4></td>
+                        </tr>
+                        <tr>
+                            <td><h5 class="display-6"><strong>First Name:</strong>&nbsp;&nbsp;<span id="d_firstname">F1</span></h5></td>
+                            <td><h5 class="display-6"><strong>Last Name:</strong>&nbsp;&nbsp;<span id="d_lastname">L1</span></h5></td>
+                            <td><h5 class="display-6"><strong>Gender:</strong>&nbsp;&nbsp;<span id="d_gender">Male</span></h5></td>
+                        </tr>
+                        <tr>
+                            <td><h5 class="display-6"><strong>Date of Birth:</strong>&nbsp;&nbsp;<span id="d_dob">0000-00-00</span></h5></td>
+                            <td><h5 class="display-6"><strong>Blood Type:</strong>&nbsp;&nbsp;<span id="blood_type">A+</span></h5></td>
+                            <td><h5 class="display-6"><strong>Date of Donation:</strong>&nbsp;&nbsp;<span id="d_date_donated">0000-00-00</span></h5></td>
+                        </tr>
+                        <tr>
+                            <td><h5 class="display-6"><strong>Email Address:</strong>&nbsp;&nbsp;<span id="d_email_id">abc@abc.com</span></h5></td>
+                            <td><h5 class="display-6"><strong>Contact Number:</strong>&nbsp;&nbsp;<span id="d_contact_number">0333XXXXXXX</span></h5></td>
+                            <td><h5 class="display-6"><strong>City:</strong>&nbsp;&nbsp;<span id="d_city">Karachi</span></h5></td>
+                        </tr>
+                        <tr>
+                            <td colspan="3"><h5 class="display-6"><strong>Address:</strong>&nbsp;&nbsp;<span id="d_address">ABC Area XYZ house</span></h5></td>
+                        </tr>
+
+                        <tr style="background-color: #F1F3FF; border:1px solid #CCCCCC;">
+                            <td colspan="3" class="text-center"><h4 class="display-6">Reciever Information</h4></td>
+                        </tr>
+                        <tr>
+                            <td colspan="2"><h5 class="display-6"><strong>Full Name:</strong>&nbsp;&nbsp;<span id="r_fullname">F2</span></h5></td>
+                            <td><h5 class="display-6"><strong>Gender:</strong>&nbsp;&nbsp;<span id="r_gender">Male</span></h5></td>
+                        </tr>
+                        <tr>
+                            <td><h5 class="display-6"><strong>Date of Birth:</strong>&nbsp;&nbsp;<span id="r_dob">0000-00-00</span></h5></td>
+                            <td><h5 class="display-6"><strong>Contact Number:</strong>&nbsp;&nbsp;<span id="r_contact_number">0333XXXXXXXX</span></h5></td>
+                            <td><h5 class="display-6"><strong>City:</strong>&nbsp;&nbsp;<span id="r_city">Karachi</span></h5></td>
+                        </tr>
+                        <tr>
+                            <td><h5 class="display-6"><strong>Date Recieved:</strong>&nbsp;&nbsp;<span id="r_date_recieved">0000-00-00</span></h5></td>
+                            <td><h5 class="display-6"><strong>Blood Expiry:</strong>&nbsp;&nbsp;<span id="expiry_date">0000-00-00</span></h5></td>
+                            <td><h5 class="display-6"><strong>Unit of Blood:</strong>&nbsp;&nbsp;<span id="unit_of_blood">1000</span></h5></td>
+                        </tr>
+                    </table>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+</div>
+
+<script>
+    $(document).ready(function () {
+        // Search Input
+        $("#myInput").on("keyup", function () {
+            var value = $(this).val().toLowerCase();
+            $("#donorTable tbody tr").filter(function () {
+                $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+            });
+        });
+
+        // Full Donation Modal
+        $('#donationTable tbody').on('click', '.fullDetail', function () {
+            var r_id = this.id;
+
+            // Get Donation data by Reciever Id
+            $.ajax({
+                url: 'GetDonationDetailById/' + r_id,
+                type: "GET",
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                cache: false,
+                async: false,
+                success: function (data) {
+                    try {
+                        $('#d_firstname').html(data[0]['d_firstname']);
+                        $('#d_lastname').html(data[0]['d_lastname']);
+                        $('#d_gender').html(data[0]['d_gender']);
+
+                        var temp1 = data[0]['d_dob'];
+                        created_array1 = temp1.split("T");
+                        var d_dob = created_array1[0];
+
+                        $('#d_dob').html(d_dob);
+                        $('#blood_type').html(data[0]['blood_type']);
+
+                        var temp2 = data[0]['d_date_donated'];
+                        created_array2 = temp2.split("T");
+                        var dd = created_array2[0];
+
+                        $('#d_date_donated').html(dd);
+                        $('#d_contact_number').html(data[0]['d_contact_number']);
+                        $('#d_email_id').html(data[0]['d_email_id']);
+                        $('#d_city').html(data[0]['d_city']);
+                        $('#d_address').html(data[0]['d_address']);
+
+                        $('#r_fullname').html(data[0]['r_fullname']);
+                        $('#r_gender').html(data[0]['r_gender']);
+                        $('#r_contact_number').html(data[0]['r_contact_number']);
+
+                        var temp3 = data[0]['r_dob'];
+                        created_array3 = temp3.split("T");
+                        var r_dob = created_array3[0];
+
+                        $('#r_dob').html(r_dob);
+                        $('#r_city').html(data[0]['r_city']);
+
+                        var temp4 = data[0]['r_date_recieved'];
+                        created_array4 = temp4.split("T");
+                        var dr = created_array4[0];
+
+                        $('#r_date_recieved').html(dr);
+                        $('#unit_of_blood').html(data[0]['unit_of_blood']);
+                        $('#expiry_date').html(data[0]['expiry_date']);
+
+                        // Show Modal
+                        $('#donationDetailModal').modal('show');
+                    }
+                    catch {
+                        alert('Error: No Donation Data Found...!');
+                    }
+                },
+                error: function (x, e) {
+                    alert('Error: No Donation Data Found...!');
+                }
+            });
+        });
+    });
+</script>

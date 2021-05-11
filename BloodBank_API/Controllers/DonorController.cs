@@ -54,6 +54,25 @@ namespace BloodBank_API.Controllers
             }
         }
 
+        // GET Donor Record Data with blood_id from donors_table
+        [Route("getDonorDataByBloodID/{id}")]
+        [HttpGet]
+        public HttpResponseMessage getDonorDataByBloodID(int id)
+        {
+            try
+            {
+                string query = "SELECT * from donors_table WHERE donor_id = (SELECT donor_id from donorDonatedBlood_table WHERE blood_id = '" + id + "');";
+                DataTable dt = gc.GetData_Database(query);
+                if (dt.Rows.Count > 0) { return Request.CreateResponse(HttpStatusCode.OK, dt); }
+                else { return Request.CreateResponse(HttpStatusCode.OK, 0); }
+            }
+            catch
+            {
+                // Error occured
+                return Request.CreateResponse(HttpStatusCode.OK, -1);
+            }
+        }
+
         // GET Donor blood donation record with donor_id from donorDonatedBlood_table
         [Route("getDonorDonation/{id}")]
         [HttpGet]

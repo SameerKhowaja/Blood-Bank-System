@@ -45,15 +45,9 @@ CREATE TABLE bloodbank1.dbo.requestor_table(
 	[date_recieved] [date] NOT NULL,
 );
 
-CREATE TABLE bloodbank1.dbo.requestor_donor_table(
-	[donor_id] [int] NULL FOREIGN KEY REFERENCES bloodbank1.dbo.donors_table(donor_id) ON DELETE SET NULL,
-	[request_id] [int] NULL FOREIGN KEY REFERENCES bloodbank1.dbo.requestor_table(request_id) ON DELETE SET NULL,
-);
-
-
+-- Blood Group Data
 INSERT INTO bloodbank1.dbo.bloodbankStock_table VALUES ('O+', 0);
 INSERT INTO bloodbank1.dbo.bloodbankStock_table VALUES ('O-', 0);
-INSERT INTO bloodbank1.dbo.bloodbankStock_table VALUES ('O+', 0);
 INSERT INTO bloodbank1.dbo.bloodbankStock_table VALUES ('A+', 0);
 INSERT INTO bloodbank1.dbo.bloodbankStock_table VALUES ('A-', 0);
 INSERT INTO bloodbank1.dbo.bloodbankStock_table VALUES ('B+', 0);
