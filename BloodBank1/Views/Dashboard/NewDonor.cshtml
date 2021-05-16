@@ -50,7 +50,7 @@
                         <a href="@Url.Action("DonationDetail", "Dashboard")"><i class="fa fa-users"></i> Donation Detail</a>
                     </li>
                     <li>
-                        <a href="#"><i class="fa fa-sign-out"></i> Logout</a>
+                        <a href="@Url.Action("Logout", "Dashboard")"><i class="fa fa-sign-out"></i> Logout</a>
                     </li>
                 </ul>
             </div>
@@ -80,7 +80,7 @@
                         <div class="form-row">
                             <div class="form-group col-md-4">
                                 <label for="dob">Date of Birth*</label>
-                                <input type="date" class="form-control" name="dob" id="dob" required>
+                                <input type="date" class="form-control" name="dob" id="dob" max="@DateTime.Now.ToString("yyyy/MM/dd")" required>
                             </div>
                             <div class="form-group col-md-4">
                                 <label for="gender">Gender*</label>
@@ -108,7 +108,7 @@
                         <div class="form-row">
                             <div class="form-group col-md-4">
                                 <label for="last_date_donation">Last Date Donated*</label>
-                                <input type="date" class="form-control" name="last_date_donation" id="last_date_donation" required>
+                                <input type="date" class="form-control" name="last_date_donation" id="last_date_donation" max="@DateTime.Now.ToString("yyyy/MM/dd")" required>
                             </div>
                             <div class="form-group col-md-4">
                                 <label for="contact_number">Contact Number*</label>

@@ -64,7 +64,7 @@
         <div class="container-fluid">
             <div class="row" id="main">
                 <div class="col-sm-12 col-md-12 well" id="content">
-                    <h1 class="text-center">Available Blood for Request</h1>
+                    <h1 class="text-center">Expired Blood Detail</h1>
                     <h4 class="text-center"><strong>One unit of blood is ~525 mL, which is roughly the equivalent of one pint.</strong></h4>
 
                     <div style="overflow-x:auto;">
@@ -77,7 +77,6 @@
                                     <th class="text-center">Expiration Date</th>
                                     <th class="text-center">Blood Type</th>
                                     <th class="text-center">Unit of Blood</th>
-                                    <th class="text-center">Action</th>
                                     <th class="text-center">Donated By</th>
                                 </tr>
                             </thead>
@@ -87,8 +86,8 @@
                                     @if (@item.blood_id == 0)
                                     {
                                         <tr>
-                                            <td colspan="7">
-                                                <h4 class="text-center">No Blood Stock Data Found</h4>
+                                            <td colspan="6">
+                                                <h4 class="text-center">No Blood Data Found</h4>
                                             </td>
                                         </tr>
 
@@ -104,13 +103,6 @@
 
                                         <td class="text-center">
                                             <div class="btn-group" role="group">
-                                                <button id="@item.blood_id" type="button" class="btn btn-success request"><i class="fa fa-plus-circle"></i> Request Blood</button>
-                                                <button id="@item.blood_id" type="button" class="btn btn-danger delete"><i class="fa fa-trash"></i> Remove Blood</button>
-                                            </div>
-                                        </td>
-
-                                        <td class="text-center">
-                                            <div class="btn-group" role="group">
                                                 <button id="@item.blood_id" type="button" class="btn btn-primary donorInfo"><i class="fa fa-user-circle"></i> Donor Information</button>
                                             </div>
                                         </td>
@@ -121,87 +113,6 @@
                     </div>
 
                 </div>
-            </div>
-        </div>
-    </div>
-
-    <!--Reciever Info Modal-->
-    <div class="modal fade" id="recieverInfoModal" tabindex="-1" role="dialog" aria-labelledby="recieverInfoModal" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h3 class="modal-title text-center">Blood Reciever Information</h3>
-                </div>
-                <form id="requestForm" action="">
-                    <div class="modal-body">
-                        <table class="table table-borderless">
-                            <tbody>
-                                <tr>
-                                    <td><h5 class="display-6 text-center"><strong>Blood Type: </strong>&nbsp;&nbsp;<span id="bloodType">-</span></h5></td>
-                                    <td><h5 class="display-6 text-center"><strong>Unit of Blood: </strong>&nbsp;&nbsp;<span id="unitOfBlood">-</span></h5></td>
-                                </tr>
-                                <tr>
-                                    <td colspan="2"><h5 class="text-center"><strong>One unit of blood is ~525 mL, which is roughly the equivalent of one pint.</strong></h5></td>
-                                </tr>
-                                <tr style="background-color: #F1F3FF; border:1px solid #CCCCCC;">
-                                    <td colspan="2">
-                                        <h4 class="text-center"><strong>Blood Requestor Information</strong></h4>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <th>
-                                        <label for="fullName">Full Name*</label>
-                                    </th>
-                                    <td>
-                                        <input type="text" class="form-control" name="fullname" id="fullName" placeholder="Full Name" required>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <th>
-                                        <label for="dob">Date of Birth*</label>
-                                    </th>
-                                    <td>
-                                        <input type="date" class="form-control" name="dob" id="dob" max="@DateTime.Now.ToString("yyyy/MM/dd")" required>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <th>
-                                        <label for="gender">Gender*</label>
-                                    </th>
-                                    <td>
-                                        <select class="form-control" name="gender" id="gender" required>
-                                            <option>Male</option>
-                                            <option>Female</option>
-                                            <option>Other</option>
-                                        </select>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <th>
-                                        <label for="contactNumber">Contact Number*</label>
-                                    </th>
-                                    <td>
-                                        <input type="text" class="form-control" name="contact_number" id="contactNumber" placeholder="Contact Number" onkeyup="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')" required>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <th>
-                                        <label for="city">City*</label>
-                                    </th>
-                                    <td>
-                                        <input type="text" class="form-control" name="city" id="city" placeholder="City" required>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-
-                    </div>
-
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                        <button type="submit" class="btn btn-primary">Recieve Blood</button>
-                    </div>
-                </form>
             </div>
         </div>
     </div>
@@ -292,24 +203,8 @@
             var id = curr_row.find('td:eq(0)').text();
 
             // Add data to Modal
-            $('#deleteForm').attr('action', 'BloodDataDelete/' + id);
+            $('#deleteForm').attr('action', 'ExpiredBloodDataDelete/' + id);
             $('#bloodDeleteModal').modal('show');
-        });
-
-        // Add New Request Modal
-        $('#bloodTable tbody').on('click', '.request', function () {
-            var curr_row = $(this).closest('tr');
-            var blood_id = curr_row.find('td:eq(0)').text();
-            var bloodType = curr_row.find('td:eq(3)').text();
-            var unitOfBlood = curr_row.find('td:eq(4)').text();
-
-            // Set Values
-            $("#bloodType").html(bloodType);
-            $("#unitOfBlood").html(unitOfBlood);
-
-            // Add data to Modal
-            $('#requestForm').attr('action', 'BloodRequestorAdd/' + blood_id);
-            $('#recieverInfoModal').modal('show');
         });
 
         // Donor Information Modal

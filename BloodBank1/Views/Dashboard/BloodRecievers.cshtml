@@ -52,7 +52,7 @@
                         <a href="@Url.Action("DonationDetail", "Dashboard")"><i class="fa fa-users"></i> Donation Detail</a>
                     </li>
                     <li>
-                        <a href="#"><i class="fa fa-sign-out"></i> Logout</a>
+                        <a href="@Url.Action("Logout", "Dashboard")"><i class="fa fa-sign-out"></i> Logout</a>
                     </li>
                 </ul>
             </div>
@@ -67,60 +67,58 @@
                     <h1 class="text-center">Blood Reciever List</h1>
                     <h4 class="text-center"><strong>One unit of blood is ~525 mL, which is roughly the equivalent of one pint.</strong></h4>
 
-                    <div class="input-group col-lg-12 rounded" style="margin-bottom:4px;">
-                        <input id="myInput" type="search" class="form-control rounded" placeholder="Search" aria-label="Search" aria-describedby="search-addon" />
-                    </div>
-
-                    <!--Reciever Table-->
-                    <table class="table table-hover table-responsive-lg" id="recieverTable">
-                        <thead>
-                            <tr style="background-color: #F1F3FF; border:1px solid #CCCCCC;">
-                                <th class="text-center">ID</th>
-                                <th class="text-center">Full Name</th>
-                                <th class="text-center">Date of Birth</th>
-                                <th class="text-center">Gender</th>
-                                <th class="text-center">Contact #</th>
-                                <th class="text-center">City</th>
-                                <th class="text-center">Recieved Date</th>
-                                <th class="text-center">Blood Type</th>
-                                <th class="text-center">Unit of Blood</th>
-                                <th class="text-center">Action</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach (var item in Model)
-                            {
-                                @if (@item.request_id == 0)
+                    <div style="overflow-x:auto;">
+                        <!--Reciever Table-->
+                        <table class="table table-hover table-responsive-lg" id="recieverTable">
+                            <thead>
+                                <tr style="background-color: #F1F3FF; border:1px solid #CCCCCC;">
+                                    <th class="text-center">ID</th>
+                                    <th class="text-center">Full Name</th>
+                                    <th class="text-center">Date of Birth</th>
+                                    <th class="text-center">Gender</th>
+                                    <th class="text-center">Contact #</th>
+                                    <th class="text-center">City</th>
+                                    <th class="text-center">Recieved Date</th>
+                                    <th class="text-center">Blood Type</th>
+                                    <th class="text-center">Unit of Blood</th>
+                                    <th class="text-center">Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in Model)
                                 {
+                                    @if (@item.request_id == 0)
+                                    {
+                                        <tr>
+                                            <td colspan="10">
+                                                <h4 class="text-center">No Blood Requestor Data Found</h4>
+                                            </td>
+                                        </tr>
+
+                                        break;
+                                    }
+
                                     <tr>
-                                        <td colspan="10">
-                                            <h4 class="text-center">No Blood Requestor Data Found</h4>
+                                        <td class="text-center">@item.request_id</td>
+                                        <td class="text-center">@item.fullname</td>
+                                        <td class="text-center">@item.dob.ToString("dd/MM/yyyy")</td>
+                                        <td class="text-center">@item.gender</td>
+                                        <td class="text-center">@item.contact_number</td>
+                                        <td class="text-center">@item.city</td>
+                                        <td class="text-center">@item.date_recieved.ToString("dd/MM/yyyy")</td>
+                                        <td class="text-center">@item.blood_type</td>
+                                        <td class="text-center">@item.unit_of_blood</td>
+
+                                        <td class="text-center">
+                                            <div class="btn-group" role="group">
+                                                <button id="@item.request_id" type="button" class="btn btn-danger delete"><i class="fa fa-trash"></i> Delete Record</button>
+                                            </div>
                                         </td>
                                     </tr>
-
-                                    break;
                                 }
-
-                                <tr>
-                                    <td class="text-center">@item.request_id</td>
-                                    <td class="text-center">@item.fullname</td>
-                                    <td class="text-center">@item.dob.ToString("dd/MM/yyyy")</td>
-                                    <td class="text-center">@item.gender</td>
-                                    <td class="text-center">@item.contact_number</td>
-                                    <td class="text-center">@item.city</td>
-                                    <td class="text-center">@item.date_recieved.ToString("dd/MM/yyyy")</td>
-                                    <td class="text-center">@item.blood_type</td>
-                                    <td class="text-center">@item.unit_of_blood</td>
-
-                                    <td class="text-center">
-                                        <div class="btn-group" role="group">
-                                            <button id="@item.request_id" type="button" class="btn btn-danger delete"><i class="fa fa-trash"></i> Delete Record</button>
-                                        </div>
-                                    </td>
-                                </tr>
-                            }
-                        </tbody>
-                    </table>
+                            </tbody>
+                        </table>
+                    </div>
 
                 </div>
             </div>
@@ -163,11 +161,9 @@
 
 <script>
     $(document).ready(function () {
-        $("#myInput").on("keyup", function () {
-            var value = $(this).val().toLowerCase();
-            $("#recieverTable tbody tr").filter(function () {
-                $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
-            });
+        // Datatable
+        $('#recieverTable').DataTable({
+            "pagingType": "full_numbers"
         });
 
         // Delete Modal

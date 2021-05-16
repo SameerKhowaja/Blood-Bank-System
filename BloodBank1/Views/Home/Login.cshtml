@@ -1,27 +1,48 @@
-﻿@{
-	Layout = "~/Views/Shared/_LayoutLogin.cshtml";
-    ViewData["Title"] = "Login";
-}
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>BloodBank Login Authentication</title>
+    <link href="https://fonts.googleapis.com/css?family=Lato:300,400,700&amp;display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="~/assets/css/login-style.css">
+</head>
+<body>
 
-	<section class="ftco-section">
+    <div class="backgroundImage" style="position: absolute; left: 0; right: 0; top: 0; bottom: 0; z-index: -1;">
+        <img src="~/assets/images/login-background-img.png" style="width: 100%; height: 100%; display: block; object-fit: cover;" alt="backgroundImage" />
+    </div>
+
+    <section class="ftco-section">
         <div class="container">
             <div class="row justify-content-center">
                 <div class="col-md-6 col-lg-5">
                     <div class="login-wrap p-4 p-md-5">
-                        <h2 class="text-center text-danger mb-4">Login Form</h2>
-                        <form action="#" class="login-form">
+                        <h1 class="text-center text-danger mb-4">Login Form</h1>
+                        <h5 class="text-center text-danger">@TempData["errorMsg"]</h5>
+
+                        <form action="LoginCheckSuccess" method="post" class="login-form">
                             <div class="form-group">
-                                <input type="text" class="form-control rounded-left" placeholder="Username" required>
+                                <input type="email" name="email_id" class="form-control rounded-left" placeholder="Email" required>
                             </div>
                             <div class="form-group d-flex">
-                                <input type="password" class="form-control rounded-left" placeholder="Password" required>
+                                <input type="password" name="password" class="form-control rounded-left" placeholder="Password" required>
                             </div>
                             <div class="form-group">
                                 <button type="submit" class="btn btn-danger rounded submit p-3 px-5">Login</button>
                             </div>
                         </form>
+
                     </div>
                 </div>
             </div>
         </div>
     </section>
+
+    <!-- Script -->
+    <script src="assets/js/jquery-3.2.1.min.js"></script>
+    <script src="assets/js/popper.js"></script>
+    <script src="assets/js/bootstrap.min.js"></script>
+    <script src="assets/js/main.js"></script>
+</body>
+</html>

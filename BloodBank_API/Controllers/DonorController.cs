@@ -26,12 +26,12 @@ namespace BloodBank_API.Controllers
                 string query = "SELECT * from donors_table";
                 DataTable dt = gc.GetData_Database(query);
                 if (dt.Rows.Count > 0) { return Request.CreateResponse(HttpStatusCode.OK, dt); }
-                else { return Request.CreateResponse(HttpStatusCode.OK, 0); }
+                else { return Request.CreateResponse(HttpStatusCode.BadRequest, 0); }
             }
             catch
             {
                 // Error occured
-                return Request.CreateResponse(HttpStatusCode.OK, -1);
+                return Request.CreateResponse(HttpStatusCode.InternalServerError, -1);
             }
         }
 
@@ -45,12 +45,12 @@ namespace BloodBank_API.Controllers
                 string query = "SELECT * from donors_table WHERE donor_id = '" + id + "'";
                 DataTable dt = gc.GetData_Database(query);
                 if (dt.Rows.Count > 0) { return Request.CreateResponse(HttpStatusCode.OK, dt); }
-                else { return Request.CreateResponse(HttpStatusCode.OK, 0); }
+                else { return Request.CreateResponse(HttpStatusCode.BadRequest, 0); }
             }
             catch
             {
                 // Error occured
-                return Request.CreateResponse(HttpStatusCode.OK, -1);
+                return Request.CreateResponse(HttpStatusCode.InternalServerError, -1);
             }
         }
 
@@ -64,12 +64,12 @@ namespace BloodBank_API.Controllers
                 string query = "SELECT * from donors_table WHERE donor_id = (SELECT donor_id from donorDonatedBlood_table WHERE blood_id = '" + id + "');";
                 DataTable dt = gc.GetData_Database(query);
                 if (dt.Rows.Count > 0) { return Request.CreateResponse(HttpStatusCode.OK, dt); }
-                else { return Request.CreateResponse(HttpStatusCode.OK, 0); }
+                else { return Request.CreateResponse(HttpStatusCode.BadRequest, 0); }
             }
             catch
             {
                 // Error occured
-                return Request.CreateResponse(HttpStatusCode.OK, -1);
+                return Request.CreateResponse(HttpStatusCode.InternalServerError, -1);
             }
         }
 
@@ -83,12 +83,12 @@ namespace BloodBank_API.Controllers
                 string query = "SELECT * from donorDonatedBlood_table WHERE donor_id = '" + id + "'";
                 DataTable dt = gc.GetData_Database(query);
                 if (dt.Rows.Count > 0) { return Request.CreateResponse(HttpStatusCode.OK, dt); }
-                else { return Request.CreateResponse(HttpStatusCode.OK, 0); }
+                else { return Request.CreateResponse(HttpStatusCode.BadRequest, 0); }
             }
             catch
             {
                 // Error occured
-                return Request.CreateResponse(HttpStatusCode.OK, -1);
+                return Request.CreateResponse(HttpStatusCode.InternalServerError, -1);
             }
         }
 
@@ -104,13 +104,13 @@ namespace BloodBank_API.Controllers
                 int i = gc.PostUpdateDeleteData_Database(query);
 
                 // success
-                if (i == 1){ return Request.CreateResponse(HttpStatusCode.OK, 1); }
+                if (i == 1){ return Request.CreateResponse(HttpStatusCode.OK, 1); } // 200
                 // failed
-                else{ return Request.CreateResponse(HttpStatusCode.OK, 0); }
+                else{ return Request.CreateResponse(HttpStatusCode.BadRequest, 0); } //400
             }
             catch{ 
                 // Error occured
-                return Request.CreateResponse(HttpStatusCode.OK, -1); 
+                return Request.CreateResponse(HttpStatusCode.InternalServerError, -1); // 500
             }
         }
 
@@ -139,37 +139,45 @@ namespace BloodBank_API.Controllers
 
                         if (j == 1)
                         {
-                            // On success add data to bloodbankStock_table
-                            string query3 = "UPDATE bloodbankStock_table SET total_units = total_units + '" + bloodDonationTB.unit_of_blood + "' WHERE blood_type = '" + bloodDonationTB.blood_type + "'";
-                            int k = gc.PostUpdateDeleteData_Database(query3);
+                            // On success add data to bloodbankStock_table if blood not expired
+                            if(DateTime.Now <= bloodDonationTB.expiry_date)
+                            {
+                                string query3 = "UPDATE bloodbankStock_table SET total_units = total_units + '" + bloodDonationTB.unit_of_blood + "' WHERE blood_type = '" + bloodDonationTB.blood_type + "'";
+                                int k = gc.PostUpdateDeleteData_Database(query3);
 
-                            // success
-                            if (k == 1) { return Request.CreateResponse(HttpStatusCode.OK, 1); }
-                            // failed
-                            else { return Request.CreateResponse(HttpStatusCode.OK, 0); }
+                                // success
+                                if (k == 1) { return Request.CreateResponse(HttpStatusCode.OK, 1); }
+                                // failed
+                                else { return Request.CreateResponse(HttpStatusCode.BadRequest, 0); }
+                            }
+                            else
+                            {
+                                // No Action just return OK 1
+                                return Request.CreateResponse(HttpStatusCode.OK, 1);
+                            }
                         }
                         else
                         {
                             //failed
-                            return Request.CreateResponse(HttpStatusCode.OK, 0);
+                            return Request.CreateResponse(HttpStatusCode.BadRequest, 0);
                         }
                     }
                     else
                     {
                         // failed
-                        return Request.CreateResponse(HttpStatusCode.OK, 0);
+                        return Request.CreateResponse(HttpStatusCode.BadRequest, 0);
                     }
                 }
                 else
                 {
                     // failed
-                    return Request.CreateResponse(HttpStatusCode.OK, 0);
+                    return Request.CreateResponse(HttpStatusCode.BadRequest, 0);
                 }
             }
             catch
             {
                 // Error occured
-                return Request.CreateResponse(HttpStatusCode.OK, -1);
+                return Request.CreateResponse(HttpStatusCode.InternalServerError, -1);
             }
         }
 
@@ -187,23 +195,36 @@ namespace BloodBank_API.Controllers
                 int i = gc.PostUpdateDeleteData_Database(query);
                 // On success update blood_type on donorDonatedBlood_table with donor_id
                 if (i == 1) {
-                    string query2 = "UPDATE donorDonatedBlood_table SET blood_type = '" + donorTB.blood_type + "' WHERE donor_id = '" + donorTB.donor_id + "'";
-                    
-                    int c = gc.PostUpdateDeleteData_Database(query2);
-                    // success (multiple rows effected)
-                    if(c >= 1) { return Request.CreateResponse(HttpStatusCode.OK, 1); }
-                    // failed
-                    else { return Request.CreateResponse(HttpStatusCode.OK, 0); }
+                    // Check if blood record present in donorDonatedBlood_table of this donor
+                    string query1 = "SELECT * FROM donorDonatedBlood_table WHERE donor_id = '" + donorTB.donor_id + "'";
+                    DataTable dt = gc.GetData_Database(query1);
+                    if (dt.Rows.Count > 0)
+                    {
+                        // Means donor have some blood donations
+                        // Update blood_type on donorDonatedBlood_table with donor_id
+
+                        string query2 = "UPDATE donorDonatedBlood_table SET blood_type = '" + donorTB.blood_type + "' WHERE donor_id = '" + donorTB.donor_id + "'";
+                        int c = gc.PostUpdateDeleteData_Database(query2);
+                        // success (multiple rows effected)
+                        if (c >= 1) { return Request.CreateResponse(HttpStatusCode.OK, 1); }
+                        // failed
+                        else { return Request.CreateResponse(HttpStatusCode.BadRequest, 0); }
+                    }
+                    else
+                    {
+                        // Means donor have no donation of blood
+                        return Request.CreateResponse(HttpStatusCode.OK, 1);
+                    }
                 }
                 // failed
                 else { 
-                    return Request.CreateResponse(HttpStatusCode.OK, 0); 
+                    return Request.CreateResponse(HttpStatusCode.BadRequest, 0); 
                 }
             }
             catch
             {
                 // Error occured
-                return Request.CreateResponse(HttpStatusCode.OK, -1);
+                return Request.CreateResponse(HttpStatusCode.InternalServerError, -1);
             }
         }
 
@@ -220,12 +241,12 @@ namespace BloodBank_API.Controllers
                 // success
                 if (i == 1) { return Request.CreateResponse(HttpStatusCode.OK, 1); }
                 // failed
-                else { return Request.CreateResponse(HttpStatusCode.OK, 0); }
+                else { return Request.CreateResponse(HttpStatusCode.BadRequest, 0); }
             }
             catch
             {
                 // Error occured
-                return Request.CreateResponse(HttpStatusCode.OK, -1);
+                return Request.CreateResponse(HttpStatusCode.InternalServerError, -1);
             }
         }
 

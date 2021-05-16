@@ -1,6 +1,16 @@
 -- Database: bloodbank
 CREATE DATABASE bloodbank1;
 
+-- Admin table
+CREATE TABLE bloodbank1.dbo.administration_table(
+	[email_id] [nchar](25) NOT NULL PRIMARY KEY,
+	[fullname] [nchar](25) NOT NULL,
+	[password] [nchar](20) NOT NULL,
+);
+
+-- Admin Data
+INSERT INTO bloodbank1.dbo.administration_table VALUES ('sameerkhowaja@gmail.com', 'Sameer Khowaja', 'pass');
+
 -- Donor Entry table
 CREATE TABLE bloodbank1.dbo.donors_table(
 	[donor_id] [int] NOT NULL PRIMARY KEY IDENTITY (1, 1),

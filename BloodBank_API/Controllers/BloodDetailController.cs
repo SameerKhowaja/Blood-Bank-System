@@ -30,12 +30,12 @@ namespace BloodBank_API.Controllers
                 DataTable dt = gc.GetData_Database(query);
                 dt.Columns.Remove("donor_id1");
                 if (dt.Rows.Count > 0) { return Request.CreateResponse(HttpStatusCode.OK, dt); }
-                else { return Request.CreateResponse(HttpStatusCode.OK, 0); }
+                else { return Request.CreateResponse(HttpStatusCode.BadRequest, 0); }
             }
             catch
             {
                 // Error occured
-                return Request.CreateResponse(HttpStatusCode.OK, -1);
+                return Request.CreateResponse(HttpStatusCode.InternalServerError, -1);
             }
         }
 
@@ -50,12 +50,12 @@ namespace BloodBank_API.Controllers
 
                 DataTable dt = gc.GetData_Database(query);
                 if (dt.Rows.Count > 0) { return Request.CreateResponse(HttpStatusCode.OK, dt); }
-                else { return Request.CreateResponse(HttpStatusCode.OK, 0); }
+                else { return Request.CreateResponse(HttpStatusCode.BadRequest, 0); }
             }
             catch
             {
                 // Error occured
-                return Request.CreateResponse(HttpStatusCode.OK, -1);
+                return Request.CreateResponse(HttpStatusCode.InternalServerError, -1);
             }
         }
 
@@ -69,12 +69,12 @@ namespace BloodBank_API.Controllers
                 string query = "SELECT * FROM donorDonatedBlood_table";
                 DataTable dt = gc.GetData_Database(query);
                 if (dt.Rows.Count > 0) { return Request.CreateResponse(HttpStatusCode.OK, dt); }
-                else { return Request.CreateResponse(HttpStatusCode.OK, 0); }
+                else { return Request.CreateResponse(HttpStatusCode.BadRequest, 0); }
             }
             catch
             {
                 // Error occured
-                return Request.CreateResponse(HttpStatusCode.OK, -1);
+                return Request.CreateResponse(HttpStatusCode.InternalServerError, -1);
             }
         }
 
@@ -88,12 +88,12 @@ namespace BloodBank_API.Controllers
                 string query = "SELECT blood_type, unit_of_blood, expiry_date, CheckDonate FROM donorDonatedBlood_table";
                 DataTable dt = gc.GetData_Database(query);
                 if (dt.Rows.Count > 0) { return Request.CreateResponse(HttpStatusCode.OK, dt); }
-                else { return Request.CreateResponse(HttpStatusCode.OK, 0); }
+                else { return Request.CreateResponse(HttpStatusCode.BadRequest, 0); }
             }
             catch
             {
                 // Error occured
-                return Request.CreateResponse(HttpStatusCode.OK, -1);
+                return Request.CreateResponse(HttpStatusCode.InternalServerError, -1);
             }
         }
 
@@ -107,12 +107,12 @@ namespace BloodBank_API.Controllers
                 string query = "SELECT * FROM donorDonatedBlood_table WHERE CheckDonate = 0 AND expiry_date >= CURRENT_TIMESTAMP";
                 DataTable dt = gc.GetData_Database(query);
                 if (dt.Rows.Count > 0) { return Request.CreateResponse(HttpStatusCode.OK, dt); }
-                else { return Request.CreateResponse(HttpStatusCode.OK, 0); }
+                else { return Request.CreateResponse(HttpStatusCode.BadRequest, 0); }
             }
             catch
             {
                 // Error occured
-                return Request.CreateResponse(HttpStatusCode.OK, -1);
+                return Request.CreateResponse(HttpStatusCode.InternalServerError, -1);
             }
         }
 
@@ -128,12 +128,12 @@ namespace BloodBank_API.Controllers
 
                 DataTable dt = gc.GetData_Database(query);
                 if (dt.Rows.Count > 0) { return Request.CreateResponse(HttpStatusCode.OK, dt); }
-                else { return Request.CreateResponse(HttpStatusCode.OK, 0); }
+                else { return Request.CreateResponse(HttpStatusCode.BadRequest, 0); }
             }
             catch
             {
                 // Error occured
-                return Request.CreateResponse(HttpStatusCode.OK, -1);
+                return Request.CreateResponse(HttpStatusCode.InternalServerError, -1);
             }
         }
 
@@ -149,12 +149,12 @@ namespace BloodBank_API.Controllers
 
                 DataTable dt = gc.GetData_Database(query);
                 if (dt.Rows.Count > 0) { return Request.CreateResponse(HttpStatusCode.OK, dt); }
-                else { return Request.CreateResponse(HttpStatusCode.OK, 0); }
+                else { return Request.CreateResponse(HttpStatusCode.BadRequest, 0); }
             }
             catch
             {
                 // Error occured
-                return Request.CreateResponse(HttpStatusCode.OK, -1);
+                return Request.CreateResponse(HttpStatusCode.InternalServerError, -1);
             }
         }
 
@@ -170,16 +170,16 @@ namespace BloodBank_API.Controllers
 
                 DataTable dt = gc.GetData_Database(query);
                 if (dt.Rows.Count > 0) { return Request.CreateResponse(HttpStatusCode.OK, dt); }
-                else { return Request.CreateResponse(HttpStatusCode.OK, 0); }
+                else { return Request.CreateResponse(HttpStatusCode.BadRequest, 0); }
             }
             catch
             {
                 // Error occured
-                return Request.CreateResponse(HttpStatusCode.OK, -1);
+                return Request.CreateResponse(HttpStatusCode.InternalServerError, -1);
             }
         }
 
-        // Delete Blood Data by blood_id from donorDonatedBlood_table
+        // Delete Blood Data by blood_id from donorDonatedBlood_table and Update bloodbankStock_table
         [Route("deleteBloodData/{id}")]
         [HttpDelete]
         public HttpResponseMessage deleteBloodData(int id)
@@ -203,23 +203,58 @@ namespace BloodBank_API.Controllers
                         //success
                         if(j == 1){ return Request.CreateResponse(HttpStatusCode.OK, 1); }
                         //Failed
-                        else { return Request.CreateResponse(HttpStatusCode.OK, 0); }
+                        else { return Request.CreateResponse(HttpStatusCode.BadRequest, 0); }
                     }
                     else
                     {
                         // failed
-                        return Request.CreateResponse(HttpStatusCode.OK, 0);
+                        return Request.CreateResponse(HttpStatusCode.BadRequest, 0);
                     }
                 }
                 else {
                     // failed
-                    return Request.CreateResponse(HttpStatusCode.OK, 0); 
+                    return Request.CreateResponse(HttpStatusCode.BadRequest, 0); 
                 }
             }
             catch
             {
                 // Error occured
-                return Request.CreateResponse(HttpStatusCode.OK, -1);
+                return Request.CreateResponse(HttpStatusCode.InternalServerError, -1);
+            }
+        }
+
+        // Delete Expired Blood Data by blood_id from donorDonatedBlood_table
+        [Route("deleteExpiredBloodData/{id}")]
+        [HttpDelete]
+        public HttpResponseMessage deleteExpiredBloodData(int id)
+        {
+            try
+            {
+                string query = "SELECT blood_type, unit_of_blood FROM donorDonatedBlood_table WHERE blood_id = '" + id + "'";
+                DataTable dt = gc.GetData_Database(query);
+
+                if (dt.Rows.Count > 0)
+                {
+                    string bloodType = dt.Rows[0].Field<string>(0); // bloodType
+                    int unit_of_blood = dt.Rows[0].Field<int>(1);   // unitOfBlood
+
+                    string query1 = "DELETE From donorDonatedBlood_table WHERE blood_id = '" + id + "'";
+                    int i = gc.PostUpdateDeleteData_Database(query1);
+                    //success
+                    if (i == 1) { return Request.CreateResponse(HttpStatusCode.OK, 1); }
+                    //Failed
+                    else { return Request.CreateResponse(HttpStatusCode.BadRequest, 0); }
+                }
+                else
+                {
+                    // failed
+                    return Request.CreateResponse(HttpStatusCode.BadRequest, 0);
+                }
+            }
+            catch
+            {
+                // Error occured
+                return Request.CreateResponse(HttpStatusCode.InternalServerError, -1);
             }
         }
 

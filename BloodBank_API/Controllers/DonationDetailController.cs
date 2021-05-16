@@ -32,12 +32,12 @@ namespace BloodBank_API.Controllers
 
                 DataTable dt = gc.GetData_Database(query);
                 if (dt.Rows.Count > 0) { return Request.CreateResponse(HttpStatusCode.OK, dt); }
-                else { return Request.CreateResponse(HttpStatusCode.OK, 0); }
+                else { return Request.CreateResponse(HttpStatusCode.BadRequest, 0); }
             }
             catch
             {
                 // Error occured
-                return Request.CreateResponse(HttpStatusCode.OK, -1);
+                return Request.CreateResponse(HttpStatusCode.InternalServerError, -1);
             }
         }
 
@@ -61,12 +61,12 @@ namespace BloodBank_API.Controllers
 
                 DataTable dt = gc.GetData_Database(query);
                 if (dt.Rows.Count > 0) { return Request.CreateResponse(HttpStatusCode.OK, dt); }
-                else { return Request.CreateResponse(HttpStatusCode.OK, 0); }
+                else { return Request.CreateResponse(HttpStatusCode.BadRequest, 0); }
             }
             catch
             {
                 // Error occured
-                return Request.CreateResponse(HttpStatusCode.OK, -1);
+                return Request.CreateResponse(HttpStatusCode.InternalServerError, -1);
             }
         }
 

@@ -52,7 +52,7 @@
                         <a href="@Url.Action("DonationDetail", "Dashboard")"><i class="fa fa-users"></i> Donation Detail</a>
                     </li>
                     <li>
-                        <a href="#"><i class="fa fa-sign-out"></i> Logout</a>
+                        <a href="@Url.Action("Logout", "Dashboard")"><i class="fa fa-sign-out"></i> Logout</a>
                     </li>
                 </ul>
             </div>
@@ -121,63 +121,61 @@
                             <h1 class="text-center">Donated Blood Details</h1>
                             <h4 class="text-center"><strong>One unit of blood is ~525 mL, which is roughly the equivalent of one pint.</strong></h4>
 
-                            <div class="input-group col-lg-12 rounded" style="margin-bottom:4px;">
-                                <input id="myInput" type="search" class="form-control rounded" placeholder="Search" aria-label="Search" aria-describedby="search-addon" />
-                            </div>
+                            <div style="overflow-x:auto;">
+                                <!--Donor Blood History Table-->
+                                <table class="table table-hover table-responsive-lg" id="bloodHistoryTable">
+                                    <thead>
+                                        <tr style="background-color: #F1F3FF; border:1px solid #CCCCCC;">
+                                            <th class="text-center">ID</th>
+                                            <th class="text-center">Units of Blood</th>
+                                            <th class="text-center">Donation Date</th>
+                                            <th class="text-center">Expiry Date</th>
+                                            <th class="text-center">Consumed</th>
+                                            <th class="text-center">Action</th>
+                                        </tr>
+                                    </thead>
 
-                            <!--Donor Blood History Table-->
-                            <table class="table table-hover table-responsive-lg" id="bloodHistoryTable">
-                                <thead>
-                                    <tr style="background-color: #F1F3FF; border:1px solid #CCCCCC;">
-                                        <th class="text-center">ID</th>
-                                        <th class="text-center">Units of Blood</th>
-                                        <th class="text-center">Donation Date</th>
-                                        <th class="text-center">Expiry Date</th>
-                                        <th class="text-center">Consumed</th>
-                                        <th class="text-center">Action</th>
-                                    </tr>
-                                </thead>
-
-                                <tbody>
-                                    @foreach (var item in Model)
-                                    {
-                                        @if (@item.blood_id == 0)
+                                    <tbody>
+                                        @foreach (var item in Model)
                                         {
+                                            @if (@item.blood_id == 0)
+                                            {
+                                                <tr>
+                                                    <td colspan="6">
+                                                        <h4 class="text-center">No Donor Donation Data Found</h4>
+                                                    </td>
+                                                </tr>
+
+                                                break;
+                                            }
+
                                             <tr>
-                                                <td colspan="6">
-                                                    <h4 class="text-center">No Donor Donation Data Found</h4>
+                                                <td class="text-center">@item.blood_id</td>
+                                                <td class="text-center">@item.unit_of_blood</td>
+                                                <td class="text-center">@item.date_donated.ToString("dd/MM/yyyy")</td>
+                                                <td class="text-center">@item.expiry_date.ToString("dd/MM/yyyy")</td>
+                                                @if (@item.CheckDonate == 0)
+                                                {
+                                                    <td class="text-center">No</td>
+                                                }
+                                                else
+                                                {
+                                                    <td class="text-center">Yes</td>
+
+                                                }
+
+                                                <td class="text-center">
+                                                    <div class="btn-group" role="group">
+                                                        <button id="@item.blood_id" type="button" class="btn btn-danger deleteBlood"><i class="fa fa-trash"></i> Remove</button>
+                                                    </div>
                                                 </td>
                                             </tr>
-
-                                            break;
                                         }
+                                    </tbody>
+                                </table>
+                            </div>
 
-                                        <tr>
-                                            <td class="text-center">@item.blood_id</td>
-                                            <td class="text-center">@item.unit_of_blood</td>
-                                            <td class="text-center">@item.date_donated.ToString("dd/MM/yyyy")</td>
-                                            <td class="text-center">@item.expiry_date.ToString("dd/MM/yyyy")</td>
-                                            @if (@item.CheckDonate == 0)
-                                            {
-                                                <td class="text-center">No</td>
-                                            }
-                                            else
-                                            {
-                                                <td class="text-center">Yes</td>
-
-                                            }
-
-                                            <td class="text-center">
-                                                <div class="btn-group" role="group">
-                                                    <button id="@item.blood_id" type="button" class="btn btn-danger deleteBlood"><i class="fa fa-trash"></i> Remove</button>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                    }
-                                </tbody>
-                            </table>
                         </div>
-
                     </div>
                 </div>
             </div>
@@ -222,11 +220,9 @@
 
 <script>
     $(document).ready(function () {
-        $("#myInput").on("keyup", function () {
-            var value = $(this).val().toLowerCase();
-            $("#bloodHistoryTable tbody tr").filter(function () {
-                $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
-            });
+        // Datatable
+        $('#bloodHistoryTable').DataTable({
+            "pagingType": "full_numbers"
         });
 
         // Delete Modal

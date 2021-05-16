@@ -31,12 +31,12 @@ namespace BloodBank_API.Controllers
                 DataTable dt = gc.GetData_Database(query);
                 dt.Columns.Remove("blood_id1");
                 if (dt.Rows.Count > 0) { return Request.CreateResponse(HttpStatusCode.OK, dt); }
-                else { return Request.CreateResponse(HttpStatusCode.OK, 0); }
+                else { return Request.CreateResponse(HttpStatusCode.BadRequest, 0); }
             }
             catch
             {
                 // Error occured
-                return Request.CreateResponse(HttpStatusCode.OK, -1);
+                return Request.CreateResponse(HttpStatusCode.InternalServerError, -1);
             }
             
         }
@@ -81,29 +81,29 @@ namespace BloodBank_API.Controllers
                                 return Request.CreateResponse(HttpStatusCode.OK, 1);
                             //Failed
                             else
-                                return Request.CreateResponse(HttpStatusCode.OK, 0);
+                                return Request.CreateResponse(HttpStatusCode.BadRequest, 0);
                         }
                         else
                         {
                             // Failed
-                            return Request.CreateResponse(HttpStatusCode.OK, 0);
+                            return Request.CreateResponse(HttpStatusCode.BadRequest, 0);
                         }
                     }
                     else
                     {
                         // failed
-                        return Request.CreateResponse(HttpStatusCode.OK, 0);
+                        return Request.CreateResponse(HttpStatusCode.BadRequest, 0);
                     }
                 }
                 else
                 {
                     // failed
-                    return Request.CreateResponse(HttpStatusCode.OK, 0);
+                    return Request.CreateResponse(HttpStatusCode.BadRequest, 0);
                 }
             }
             catch {
                 // Error occured
-                return Request.CreateResponse(HttpStatusCode.OK, -1);
+                return Request.CreateResponse(HttpStatusCode.InternalServerError, -1);
             }
             
         }
@@ -121,12 +121,12 @@ namespace BloodBank_API.Controllers
                 // success
                 if (i == 1) { return Request.CreateResponse(HttpStatusCode.OK, 1); }
                 // failed
-                else { return Request.CreateResponse(HttpStatusCode.OK, 0); }
+                else { return Request.CreateResponse(HttpStatusCode.BadRequest, 0); }
             }
             catch
             {
                 // Error occured
-                return Request.CreateResponse(HttpStatusCode.OK, -1);
+                return Request.CreateResponse(HttpStatusCode.InternalServerError, -1);
             }
         }
 

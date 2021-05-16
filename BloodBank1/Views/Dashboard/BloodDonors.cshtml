@@ -52,7 +52,7 @@
                         <a href="@Url.Action("DonationDetail", "Dashboard")"><i class="fa fa-users"></i> Donation Detail</a>
                     </li>
                     <li>
-                        <a href="#"><i class="fa fa-sign-out"></i> Logout</a>
+                        <a href="@Url.Action("Logout", "Dashboard")"><i class="fa fa-sign-out"></i> Logout</a>
                     </li>
                 </ul>
             </div>
@@ -66,63 +66,61 @@
                 <div class="col-lg-12 well" id="content">
                     <h1 class="text-center">Blood Donors List</h1>
 
-                    <div class="input-group col-lg-12 rounded" style="margin-bottom:4px;">
-                        <input id="myInput" type="search" class="form-control rounded" placeholder="Search" aria-label="Search" aria-describedby="search-addon" />
-                    </div>
-
-                    <!--Donor Table-->
-                    <table class="table table-hover table-responsive-lg" id="donorTable">
-                        <thead>
-                            <tr style="background-color: #F1F3FF; border:1px solid #CCCCCC;">
-                                <th class="text-center">ID</th>
-                                <th class="text-center">Full Name</th>
-                                <th class="text-center">Date of Birth</th>
-                                <th class="text-center">Gender</th>
-                                <th class="text-center">Contact #</th>
-                                <th class="text-center">City</th>
-                                <th class="text-center">Last Donated</th>
-                                <th class="text-center">Blood Type</th>
-                                <th class="text-center">Action/History</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach (var item in Model)
-                            {
-                                @if (@item.donor_id == 0)
+                    <div style="overflow-x:auto;">
+                        <!--Donor Table-->
+                        <table class="table table-hover table-responsive-lg" id="donorTable">
+                            <thead>
+                                <tr style="background-color: #F1F3FF; border:1px solid #CCCCCC;">
+                                    <th class="text-center">ID</th>
+                                    <th class="text-center">Full Name</th>
+                                    <th class="text-center">Date of Birth</th>
+                                    <th class="text-center">Gender</th>
+                                    <th class="text-center">Contact #</th>
+                                    <th class="text-center">City</th>
+                                    <th class="text-center">Last Donated</th>
+                                    <th class="text-center">Blood Type</th>
+                                    <th class="text-center">Action/History</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in Model)
                                 {
+                                    @if (@item.donor_id == 0)
+                                    {
+                                        <tr>
+                                            <td colspan="9">
+                                                <h4 class="text-center">No Donor Data Found</h4>
+                                            </td>
+                                        </tr>
+
+                                        break;
+                                    }
+
                                     <tr>
-                                        <td colspan="9">
-                                            <h4 class="text-center">No Donor Data Found</h4>
+                                        <td class="text-center">@item.donor_id</td>
+                                        <td class="text-center">@item.firstname @item.lastname</td>
+                                        <td class="text-center">@item.dob.ToString("dd/MM/yyyy")</td>
+                                        <td class="text-center">@item.gender</td>
+                                        <td class="text-center">@item.contact_number</td>
+                                        <td class="text-center">@item.city</td>
+                                        <td class="text-center">@item.last_date_donation.ToString("dd/MM/yyyy")</td>
+                                        <td class="text-center">@item.blood_type</td>
+
+                                        <td class="text-center">
+                                            <div class="btn-group" role="group">
+                                                <button id="@item.donor_id" type="button" class="btn btn-success donate"><i class="fa fa-tint"></i></button>
+                                                <a href="@Url.Action("DonorInfo", "Dashboard", new { id = item.donor_id })" id="@item.donor_id" type="button" class="btn btn-warning"><i class="fa fa-user-circle"></i></a>
+                                                <button id="@item.donor_id" type="button" class="btn btn-danger delete"><i class="fa fa-trash"></i></button>
+                                            </div>
+                                            <div class="btn-group" role="group">
+                                                <a href="@Url.Action("BloodDonorHistory", "Dashboard", new { id = item.donor_id })" type="button" class="btn btn-primary">History</a>
+                                            </div>
                                         </td>
                                     </tr>
-
-                                    break;
                                 }
-
-                                <tr>
-                                    <td class="text-center">@item.donor_id</td>
-                                    <td class="text-center">@item.firstname @item.lastname</td>
-                                    <td class="text-center">@item.dob.ToString("dd/MM/yyyy")</td>
-                                    <td class="text-center">@item.gender</td>
-                                    <td class="text-center">@item.contact_number</td>
-                                    <td class="text-center">@item.city</td>
-                                    <td class="text-center">@item.last_date_donation.ToString("dd/MM/yyyy")</td>
-                                    <td class="text-center">@item.blood_type</td>
-
-                                    <td class="text-center">
-                                        <div class="btn-group" role="group">
-                                            <button id="@item.donor_id" type="button" class="btn btn-success donate"><i class="fa fa-tint"></i></button>
-                                            <a href="@Url.Action("DonorInfo", "Dashboard", new { id = item.donor_id })" id="@item.donor_id" type="button" class="btn btn-warning"><i class="fa fa-user-circle"></i></a>
-                                            <button id="@item.donor_id" type="button" class="btn btn-danger delete"><i class="fa fa-trash"></i></button>
-                                        </div>
-                                        <div class="btn-group" role="group">
-                                            <a href="@Url.Action("BloodDonorHistory", "Dashboard", new { id = item.donor_id })" type="button" class="btn btn-primary">View History</a>
-                                        </div>
-                                    </td>
-                                </tr>
-                            }
-                        </tbody>
-                    </table>
+                            </tbody>
+                        </table>
+                    </div>
 
                 </div>
             </div>
@@ -174,7 +172,7 @@
 
                         <table class="table table-borderless">
                             <tbody>
-                                <tr>
+                                <tr style="background-color: #F1F3FF; border:1px solid #CCCCCC;">
                                     <td colspan="4">
                                         <h5 class="text-center"><strong>One unit of blood is ~525 mL, which is roughly the equivalent of one pint.</strong></h5>
                                     </td>
@@ -184,7 +182,7 @@
                                         <label for="unit_of_blood">Expiry Date*</label>
                                     </th>
                                     <td colspan="3">
-                                        <input type="date" class="form-control" name="expiry_date" id="expiry_date" required>
+                                        <input type="date" class="form-control" name="expiry_date" id="expiry_date" min="@DateTime.Now.ToString("yyyy/MM/dd")" required>
                                     </td>
                                 </tr>
                                 <tr>
@@ -243,12 +241,9 @@
 
 <script>
     $(document).ready(function () {
-        // Search Input
-        $("#myInput").on("keyup", function () {
-            var value = $(this).val().toLowerCase();
-            $("#donorTable tbody tr").filter(function () {
-                $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
-            });
+        // Datatable
+        $('#donorTable').DataTable({
+            "pagingType": "full_numbers"
         });
 
         // Donate Blood Modal

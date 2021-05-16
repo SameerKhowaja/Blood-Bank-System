@@ -52,7 +52,7 @@
                         <a href="@Url.Action("DonationDetail", "Dashboard")"><i class="fa fa-users"></i> Donation Detail</a>
                     </li>
                     <li>
-                        <a href="#"><i class="fa fa-sign-out"></i> Logout</a>
+                        <a href="@Url.Action("Logout", "Dashboard")"><i class="fa fa-sign-out"></i> Logout</a>
                     </li>
                 </ul>
             </div>
@@ -94,6 +94,12 @@
                                             <td class="text-center" id="op">@item.Value</td>
                                         </tr>
                                     }
+
+                                    <tr style="background-color: #FFFFFF;">
+                                        <td colspan="2" class="text-center">
+                                            <a id="availableBloodView" class="btn btn-info btn-block text-center" href="@Url.Action("BloodRequest", "Dashboard")">More Detail</a>
+                                        </td>
+                                    </tr>
                                 }
                                 else
                                 {
@@ -138,6 +144,12 @@
                                             <td class="text-center" id="op">@item.Value</td>
                                         </tr>
                                     }
+
+                                    <tr style="background-color: #FFFFFF;">
+                                        <td colspan="2" class="text-center">
+                                            <a id="consumedBloodView" class="btn btn-info btn-block text-center" href="@Url.Action("DonationDetail", "Dashboard")">More Detail</a>
+                                        </td>
+                                    </tr>
                                 }
                                 else
                                 {
@@ -182,6 +194,12 @@
                                             <td class="text-center" id="op">@item.Value</td>
                                         </tr>
                                     }
+
+                                    <tr style="background-color: #FFFFFF;">
+                                        <td colspan="2" class="text-center">
+                                            <a id="expiredBloodView" class="btn btn-info btn-block text-center" href="@Url.Action("BloodExpired", "Dashboard")">More Detail</a>
+                                        </td>
+                                    </tr>
                                 }
                                 else
                                 {

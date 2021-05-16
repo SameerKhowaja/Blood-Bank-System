@@ -24,6 +24,10 @@ namespace BloodBank1
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllersWithViews();
+            // Session Timer added to expire when idle in 10 minutes
+            services.AddSession(option => {
+                option.IdleTimeout = TimeSpan.FromMinutes(10);
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -41,6 +45,9 @@ namespace BloodBank1
             }
             app.UseHttpsRedirection();
             app.UseStaticFiles();
+            
+            // Using Session
+            app.UseSession();
 
             app.UseRouting();
 

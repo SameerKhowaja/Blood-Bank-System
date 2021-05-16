@@ -7,6 +7,10 @@ namespace BloodBank_API.Controllers
 {
     public class GenericClass
     {
+        // 200 OK
+        // 400 Bad Request
+        // 500 Internal Server Error
+
         static string conStr = ConfigurationManager.ConnectionStrings["connectDB"].ConnectionString;
         SqlConnection con = new SqlConnection(conStr);
 
