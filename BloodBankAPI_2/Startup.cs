@@ -11,6 +11,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
+using Newtonsoft.Json;
 using System;
 
 namespace BloodBankAPI_2
@@ -38,12 +39,16 @@ namespace BloodBankAPI_2
 
             services.AddScoped<IBloodDonorRepository, BloodDonorRepository>();
             services.AddScoped<IBloodRecipientRepository, BloodRecipientRepository>();
+            services.AddScoped<IDonationRecordRepository, DonationRecordRepository>();
+            services.AddScoped<IReceptionRecordRepository, ReceptionRecordRepository>();
+            services.AddScoped<IBloodGroupRepository, BloodGroupRepository>();
 
             services.AddScoped<IDbInitializer, DbInitializer>();
 
             services.AddRouting(options => options.LowercaseUrls = true);
-            
-            services.AddControllers();
+
+            services.AddControllers().AddNewtonsoftJson();
+
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "BloodBankAPI_2", Version = "v1" });

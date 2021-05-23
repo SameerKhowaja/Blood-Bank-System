@@ -3,6 +3,7 @@ using DataAccess.Data;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace BloodBankAPI_2.Service
@@ -50,6 +51,20 @@ namespace BloodBankAPI_2.Service
 
                 _userManager.CreateAsync(identityUser, password: "Admin2!").GetAwaiter().GetResult();
                 _userManager.AddToRoleAsync(identityUser, "Admin").GetAwaiter().GetResult();
+                
+                if (_db.BloodGroups.Count() > 0) return;
+
+                /// Adding BloodGroups here - hardcoded for now
+                List<string> bloodTypes = new() { "O+", "O-", "A+", "A-", "B+", "B-", "AB+", "AB-" };
+                foreach (var bloodType in bloodTypes)
+                {
+                    BloodGroup bloodGroup = new() { 
+                       BloodType=bloodType, Units=0
+                    };
+                    _db.BloodGroups.AddAsync(bloodGroup).GetAwaiter().GetResult();
+                }
+                _db.SaveChanges();
+
             }
             catch (Exception ex)
             {

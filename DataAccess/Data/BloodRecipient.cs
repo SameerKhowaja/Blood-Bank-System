@@ -24,7 +24,5 @@ namespace DataAccess.Data
         public string Address { get; set; }
         [Required]
         public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
-        [Required]
-        public List<ReceptionRecord> ReceptionRecords { get; set; }
     }
 }

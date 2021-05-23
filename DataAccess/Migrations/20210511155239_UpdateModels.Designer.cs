@@ -4,14 +4,16 @@ using DataAccess.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace DataAccess.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210511155239_UpdateModels")]
+    partial class UpdateModels
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -60,25 +62,6 @@ namespace DataAccess.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("BloodDonors");
-                });
-
-            modelBuilder.Entity("DataAccess.Data.BloodGroup", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("BloodType")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("Units")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("BloodGroups");
                 });
 
             modelBuilder.Entity("DataAccess.Data.BloodRecipient", b =>
@@ -137,6 +120,9 @@ namespace DataAccess.Migrations
                     b.Property<int?>("DonatedById")
                         .HasColumnType("int");
 
+                    b.Property<int>("DonorId")
+                        .HasColumnType("int");
+
                     b.Property<int>("Units")
                         .HasColumnType("int");
 
@@ -158,6 +144,9 @@ namespace DataAccess.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<int?>("ReceivedById")
+                        .HasColumnType("int");
+
+                    b.Property<int>("RecipientId")
                         .HasColumnType("int");
 
                     b.Property<int>("Units")

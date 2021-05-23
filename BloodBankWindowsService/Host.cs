@@ -15,9 +15,9 @@ namespace BloodBankWindowsService
                 (
                  service =>
                  {
-                     service.Service<ProcessGenerator>(pg =>
+                     service.Service<WindowService>(pg =>
                      {
-                         pg.ConstructUsing(processGenerator => new ProcessGenerator());
+                         pg.ConstructUsing(processGenerator => new WindowService());
                          pg.WhenStarted(processGenerator => processGenerator.Start(question));
                          pg.WhenStopped(processGenerator => processGenerator.Stop());
 

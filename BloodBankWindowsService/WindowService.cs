@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -29,14 +30,17 @@ namespace BloodBankWindowsService
         {
             try
             {
+                var msgs = new string[] { "BLOODBANK: " + question + " Time: " + DateTime.Now.ToString() };
+                File.AppendAllLines(ConfigurationManager.AppSettings["success"], msgs);
                 MyAction();
                 var msg = new string[] { "BLOODBANK: " + question + " Time: " + DateTime.Now.ToString() };
-                File.AppendAllLines(@"D:\Assignment\SuccessReport.txt", msg);
+                File.AppendAllLines(ConfigurationManager.AppSettings["success"], msg);
             }
             catch (Exception Ex)
             {
                 var msg = new string[] { "BLOODBANK: " + question + " Reason: " + Ex.Message + " Time: " + DateTime.Now.ToString() };
-                File.AppendAllLines(@"D:\Assignment\ExceptionReport.txt", msg);
+                File.AppendAllLines(ConfigurationManager.AppSettings["failure"], msg);
+                
             }
 
         }
